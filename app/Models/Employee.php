@@ -3,9 +3,11 @@
   namespace App\Models;
   
   use App\Enums\DepartmentEnum;
+  use App\Enums\PositionEnum;
   use App\Enums\StatusEnum;
   use Illuminate\Database\Eloquent\Factories\HasFactory;
   use Illuminate\Database\Eloquent\Model;
+  use Illuminate\Database\Eloquent\Relations\BelongsToMany;
   
   class Employee extends Model
   {
@@ -24,9 +26,10 @@
     ];
     
     protected $casts = [
-      'hire_date' => 'date',
       'status' => StatusEnum::class,
       'department' => DepartmentEnum::class,
+      'position' => PositionEnum::class,
+      'hire_date' => 'date'
     ];
     
     // Accessor for full name
@@ -34,6 +37,12 @@
     {
       return "{$this->first_name} {$this->last_name}";
     }
+    
+    public function formatHireDate(): string
+    {
+      return $this->hire_date->format('M d, Y');
+    }
+    
     
     // Scope for search
     public function scopeSearch($query, $search)

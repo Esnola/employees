@@ -64,6 +64,13 @@
         ->sort();
     }
     
+    
+    public function closeDeleteModal()
+    {
+      $this->showDeleteModal = false;
+     // $this->reset(['employeeToDeleteId', 'employeeToDeleteName']);
+    }
+    
     public function sortBy($field)
     {
       if ($this->sortField === $field) {

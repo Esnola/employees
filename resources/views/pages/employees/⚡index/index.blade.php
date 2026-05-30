@@ -100,7 +100,7 @@
 
     {{-- Reset Filters --}}
     <button wire:click="resetFilters"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            class="cursor-pointer items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
       Reset
     </button>
   </div>
@@ -113,11 +113,11 @@
             </span>
       <div class="flex gap-2">
         <button wire:click="exportSelected"
-                class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                class="cursor-pointer items-center px-3 py-2 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
           Export Selected
         </button>
         <button wire:click="bulkDelete" wire:confirm="Are you sure you want to delete the selected employees?"
-                class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200">
+                class="cursor-pointer items-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200">
           Delete Selected
         </button>
       </div>
@@ -128,7 +128,7 @@
   <div class="mt-8 flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <div class="overflow-hidden shadow ring-1 ring-gray-500/10 ring-opacity-5 md:rounded-lg">
           <table class="min-w-full divide-y divide-gray-300">
             <thead class="bg-gray-50">
             <tr>
@@ -197,16 +197,17 @@
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
-                   <flux:link class="font-medium hover:underline text-stone-400 hover:text-stone-500"
-                           href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}</flux:link>
+                  <flux:link class="font-medium no-underline! hover:underline text-stone-400 hover:text-stone-500"
+                        href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}
+                  </flux:link>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   {{ $employee->email }}
                 </td>
 
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ $employee->department->value }}
+                <td class="whitespace-nowrap px-3 py-4">
+                  <flux:badge class="{{$employee->department->classes()}}">{{ $employee->department->value }}</flux:badge>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -214,20 +215,25 @@
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                        <span class="inline-flex rounded-md px-2 text-xs font-semibold leading-5 border
-                                            {{ $employee->status->classes() }}">
-                                            {{ ucfirst($employee->status->value) }}
-                                        </span>
+                  <span class="inline-flex rounded-md px-2 text-xs font-semibold leading-5 border
+                      {{ $employee->status->classes() }}">
+                      {{ ucfirst($employee->status->value) }}
+                      </span>
                 </td>
 
                 <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+
                   <div class="flex justify-end gap-2">
-                    <a href="{{ route('employees.edit', $employee) }}"
-                       class="text-indigo-600 hover:text-indigo-900">
-                      Edit
+                    <a  href="{{ route('employees.show', $employee) }}"
+                            class="cursor-pointer border border-blue-600 bg-blue-100/50 rounded-md px-4 py-2 text-sm font-medium text-blue-400">
+                      View
                     </a>
+                    <button variant="primary" href="{{ route('employees.edit', $employee) }}"
+                            class="cursor-pointer border border-green-600 bg-green-100/50 rounded-md px-4 py-2 text-sm font-medium text-green-400">
+                      Edit
+                    </button>
                     <button wire:click="confirmDelete({{ $employee->id }})"
-                            class="text-red-600 hover:text-red-900">
+                            class="cursor-pointer border border-red-600 bg-red-100/50 rounded-md px-4 py-2 text-sm font-medium text-red-400">
                       Delete
                     </button>
                   </div>
@@ -254,6 +260,8 @@
 
   {{-- Delete Confirmation Modal --}}
   @if($showDeleteModal)
+   {{-- <x-actions-modal :name="$employee->full_name" :id="$employee->id"/>--}}
+
     <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
@@ -272,7 +280,7 @@
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
-                  Delete Employee
+                  Delete Employee - {{ $employee->full_name }}
                 </h3>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
@@ -283,11 +291,11 @@
             </div>
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
               <button wire:click="deleteEmployee" type="button"
-                      class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                      class="cursor-pointer  w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
                 Delete
               </button>
-              <button wire:click="showDeleteModal = false" type="button"
-                      class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+              <button wire:click="closeDeleteModal" type="button"
+                      class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
                 Cancel
               </button>
             </div>
@@ -295,5 +303,6 @@
         </div>
       </div>
     </div>
+
   @endif
 </div>

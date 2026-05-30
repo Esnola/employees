@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ $title ?? 'Employee Management' }}</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @fluxAppearance
   @livewireStyles
+  <title>{{ $title ?? 'Employee Management' }}</title>
 </head>
 <body class="bg-gray-50 antialiased">
 <nav class="bg-white shadow-sm border-b">
@@ -13,7 +14,7 @@
     <div class="flex justify-between h-16">
       <div class="flex items-center">
         <h1 class="text-xl font-bold text-gray-900">
-          Employee Management
+          Employee Management . @isset($employee) {{ $$employee->full_name }} @endisset
         </h1>
       </div>
     </div>

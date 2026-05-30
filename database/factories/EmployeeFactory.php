@@ -29,7 +29,7 @@
           'Analyst',
           'Coordinator'
         ]),
-        'salary' => fake()->randomFloat(2, 30000, 150000),
+        'salary' => fake()->numberBetween(3000000, 15000000),
         'hire_date' => fake()->dateTimeBetween('-5 years', 'now'),
         'status' => fake()->randomElement(['active', 'inactive']),
       ];

@@ -14,8 +14,8 @@ enum StatusEnum: string
   public function classes(): string
   {
     return match ($this) {
-      self::Active => 'bg-green-100/30 text-green-500 border-green-500',
-      self::Inactive => 'bg-gray-100/30 text-gray-500 border-gray-500',
+      self::Active => 'bg-green-100/30! text-green-500! border border-green-500!',
+      self::Inactive => 'bg-gray-100/30! text-gray-500! border border-gray-500!',
     };
   }
     

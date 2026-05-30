@@ -16,7 +16,7 @@
         $table->string('phone')->nullable();
         $table->string('department')->default('Engineering');
         $table->string('position');
-        $table->decimal('salary', 10, 2);
+        $table->integer('salary')->nullable();
         $table->date('hire_date');
         $table->string('status')->default('active');
         $table->timestamps();

@@ -57,7 +57,7 @@
           <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd" />
+                  clip-rule="evenodd"/>
           </svg>
         </div>
         <div class="ml-3">
@@ -144,12 +144,12 @@
                   Name
                   @if($sortField === 'first_name')
                     <span>
-                                                @if($sortDirection === 'asc')
+                      @if($sortDirection === 'asc')
                         ↑
                       @else
                         ↓
                       @endif
-                                            </span>
+                     </span>
                   @endif
                 </div>
               </th>
@@ -165,12 +165,12 @@
                   Department
                   @if($sortField === 'department')
                     <span>
-                                                @if($sortDirection === 'asc')
+                      @if($sortDirection === 'asc')
                         ↑
                       @else
                         ↓
                       @endif
-                                            </span>
+                    </span>
                   @endif
                 </div>
               </th>
@@ -197,9 +197,8 @@
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
-                  <div class="font-medium text-gray-900">
-                    {{ $employee->full_name }}
-                  </div>
+                   <flux:link class="font-medium hover:underline text-stone-400 hover:text-stone-500"
+                           href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}</flux:link>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -268,7 +267,7 @@
                 <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
                 </svg>
               </div>
               <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">

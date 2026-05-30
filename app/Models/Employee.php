@@ -25,7 +25,6 @@
     
     protected $casts = [
       'hire_date' => 'date',
-      'salary' => 'decimal:2',
       'status' => StatusEnum::class,
       'department' => DepartmentEnum::class,
     ];
@@ -46,5 +45,9 @@
           ->orWhere('department', 'like', "%{$search}%")
           ->orWhere('position', 'like', "%{$search}%");
       });
+    }
+    public function formatSalary(): string
+    {
+      return number_format($this->salary / 100 , 2, ',', '.') . ' €';
     }
   }

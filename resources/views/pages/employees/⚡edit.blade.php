@@ -15,14 +15,14 @@
     public $departments = [];
     public $positions = [];
     public $statuses = [];
-
+    public $employee = "";
 
     public function mount(Employee $employee)
     {
       $this->departments = DepartmentEnum::cases();
       $this->positions = PositionEnum::cases();
       $this->statuses = StatusEnum::cases();
-
+      $this->employee = $employee;
       $this->form->setEmployee($employee);
     }
 
@@ -38,12 +38,14 @@
 
 ?>
 
+
 <div class="px-4 sm:px-6 lg:px-8">
   <div class="md:flex md:items-center md:justify-between">
-    <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-        Edit Employee
+    <div class="min-w-0 flex-1 flex gap-2 items-center">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900/80 sm:truncate sm:text-3xl sm:tracking-tight">
+        {{ __('Edit Employee')}}: {{ $this->employee->full_name }}
       </h2>
+      <flux:icon.user class="size-6"/>
     </div>
   </div>
 
@@ -53,15 +55,15 @@
         {{-- Personal Information --}}
         <div class="bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
-              Personal Information
+            <h3 class="text-lg font-medium leading-6 text-gray-900/8033 mb-4">
+              {{ __('Personal Information')}}
             </h3>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {{-- First Name --}}
               <div>
                 <label for="first_name" class="block text-sm font-medium text-gray-700">
-                  First Name
+                  {{ __('First Name')}}
                 </label>
                 <input
                         wire:model.blur="form.first_name"
@@ -77,7 +79,7 @@
               {{-- Last Name --}}
               <div>
                 <label for="last_name" class="block text-sm font-medium text-gray-700">
-                  Last Name
+                  {{ __(' Last Name')}}
                 </label>
                 <input
                         wire:model.blur="form.last_name"
@@ -128,7 +130,7 @@
         {{-- Employment Information --}}
         <div class="bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
+            <h3 class="text-lg font-medium leading-6 text-gray-900/8033 mb-4">
               Employment Information
             </h3>
 

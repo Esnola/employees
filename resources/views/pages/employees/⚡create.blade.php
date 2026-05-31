@@ -25,7 +25,7 @@
   <div class="md:flex md:items-center md:justify-between">
     <div class="min-w-0 flex-1">
       <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-        Create Employee
+        {{__('Create Employee')}}
       </h2>
     </div>
   </div>
@@ -37,14 +37,14 @@
         <div class="bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
-              Personal Information
+              {{__('Personal Information')}}
             </h3>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {{-- First Name --}}
               <div>
                 <label for="first_name" class="block text-sm font-medium text-gray-700">
-                  First Name
+                  {{__('First Name')}}
                 </label>
                 <input
                         wire:model.blur="form.first_name"
@@ -60,7 +60,7 @@
               {{-- Last Name --}}
               <div>
                 <label for="last_name" class="block text-sm font-medium text-gray-700">
-                  Last Name
+                  {{__('Last Name')}}
                 </label>
                 <input
                         wire:model.blur="form.last_name"
@@ -92,7 +92,7 @@
               {{-- Phone --}}
               <div>
                 <label for="phone" class="block text-sm font-medium text-gray-700">
-                  Phone
+                  {{__('Phone')}}
                 </label>
                 <input
                         wire:model="form.phone"
@@ -112,23 +112,23 @@
         <div class="bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
-              Employment Information
+              {{__('Employment Information')}}
             </h3>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {{-- Department --}}
               <div>
                 <label for="department" class="block text-sm font-medium text-gray-700">
-                  Department
+                  {{__('Department')}}
                 </label>
                 <select
                         wire:model="form.department"
                         id="department"
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
-                  <option value="">Select Department</option>
+                  <option value="">{{__('Select Department')}}</option>
                   @foreach(DepartmentEnum::cases() as $dept)
-                    <option value="{{ $dept->value }}">{{ $dept->value }}</option>
+                    <option value="{{ $dept->value }}">{{ __($dept->value) }}</option>
                   @endforeach
                 </select>
                 @error('form.department')
@@ -139,16 +139,16 @@
               {{-- Position --}}
               <div>
                 <label for="position" class="block text-sm font-medium text-gray-700">
-                  Position
+                  {{__('Position')}}
                 </label>
                 <select
                         wire:model="form.position"
                         id="position"
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
-                  <option value="">Select Position</option>
+                  <option value="">{{__('Select Position')}}</option>
                   @foreach(PositionEnum::cases() as $pos)
-                    <option value="{{ $pos->value }}">{{ $pos->value }}</option>
+                    <option value="{{ $pos->value }}">{{ __($pos->value) }}</option>
                   @endforeach
                 </select>
                 @error('form.position')
@@ -159,7 +159,7 @@
               {{-- Salary --}}
               <div>
                 <label for="salary" class="block text-sm font-medium text-gray-700">
-                  Salary
+                  {{__('Salary')}}
                 </label>
                 <input
                         wire:model.blur="form.salary"
@@ -176,7 +176,7 @@
               {{-- Hire Date --}}
               <div>
                 <label for="hire_date" class="block text-sm font-medium text-gray-700">
-                  Hire Date
+                  {{__('Hire Date')}}
                 </label>
                 <input
                         wire:model="form.hire_date"
@@ -192,7 +192,7 @@
               {{-- Status --}}
               <div class="sm:col-span-2">
                 <label for="status" class="block text-sm font-medium text-gray-700">
-                  Status
+                  {{__('Status')}}
                 </label>
                 <select
                         wire:model="form.status"
@@ -200,7 +200,7 @@
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
                   @foreach(StatusEnum::cases() as $status)
-                    <option value="{{ $status->value }}">{{ $status->value }}</option>
+                    <option value="{{ $status->value }}">{{ ucfirst(__($status->value)) }}</option>
                   @endforeach
                 </select>
                 @error('form.status')
@@ -217,13 +217,13 @@
                   href="{{ route('employees.index') }}"
                   class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Cancel
+            {{__('Cancel')}}
           </a>
           <button
                   type="submit"
                   class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Create Employee
+            {{__('Create Employee')}}
           </button>
         </div>
       </div>

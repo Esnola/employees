@@ -6,7 +6,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @fluxAppearance
   @livewireStyles
-  <title>{{ $title ?? 'Employee Management' }}</title>
+  <title>{{ $title ?? __('Employee Management') }}</title>
 </head>
 <body class="bg-gray-50 antialiased">
 <nav class="bg-white shadow-sm border-b">
@@ -14,7 +14,7 @@
     <div class="flex justify-between h-16">
       <div class="flex items-center">
         <h1 class="text-xl font-bold text-gray-900">
-          Employee Management
+          {{ __('Employees Management') }}
         </h1>
       </div>
     </div>

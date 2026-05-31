@@ -3,18 +3,19 @@
   use App\Enums\DepartmentEnum;
   use App\Enums\PositionEnum;
   use App\Enums\StatusEnum;
-  use Livewire\Component;
-  use App\Models\Employee;
-  use Livewire\WithPagination;
-  use Livewire\WithFileUploads;
-  use Livewire\Attributes\Title;
-  use Barryvdh\DomPDF\Facade\Pdf;
-  use App\Imports\EmployeesImport;
   use App\Exports\EmployeesExport;
-  use Maatwebsite\Excel\Facades\Excel;
+  use App\Imports\EmployeesImport;
+  use App\Models\Employee;
+  use Barryvdh\DomPDF\Facade\Pdf;
   use Livewire\Attributes\Computed;
+  use Livewire\Attributes\Title;
+  use Livewire\Component;
+  use Livewire\WithFileUploads;
+  use Livewire\WithPagination;
+  use Maatwebsite\Excel\Facades\Excel;
   
-  new #[Title('Employees')] class extends Component {
+  new #[Title('Employees')]
+  class extends Component {
     use WithPagination;
     use WithFileUploads;
     
@@ -24,7 +25,7 @@
     // Filters
     public $search = '';
     public $department = '';
-    public $position= '';
+    public $position = '';
     public $status = '';
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
@@ -65,16 +66,15 @@
     #[Computed]
     public function departments()
     {
-     /* return Employee::distinct('department')
-        ->pluck('department')
-        ->sort();*/
-        return DepartmentEnum::cases();
+      return DepartmentEnum::cases();
     }
+    
     #[Computed]
     public function statuses()
     {
       return StatusEnum::cases();
     }
+    
     #[Computed]
     public function positions()
     {
@@ -82,11 +82,10 @@
     }
     
     
-    
     public function closeDeleteModal()
     {
       $this->showDeleteModal = false;
-     // $this->reset(['employeeToDeleteId', 'employeeToDeleteName']);
+      // $this->reset(['employeeToDeleteId', 'employeeToDeleteName']);
     }
     
     public function sortBy($field)
@@ -123,7 +122,7 @@
     
     public function resetFilters()
     {
-      $this->reset(['search', 'department','position', 'status']);
+      $this->reset(['search', 'department', 'position', 'status']);
       $this->resetPage();
     }
     
@@ -132,6 +131,7 @@
       $this->employeeToDelete = $employeeId;
       $this->showDeleteModal = true;
     }
+    
     
     public function deleteEmployee()
     {
@@ -176,7 +176,7 @@
         'employees' => $employees
       ]);
       
-      return response()->streamDownload(function() use ($pdf) {
+      return response()->streamDownload(function () use ($pdf) {
         echo $pdf->stream();
       }, 'employees-' . now()->format('Y-m-d') . '.pdf');
     }
@@ -189,7 +189,7 @@
         'employees' => $employees
       ]);
       
-      return response()->streamDownload(function() use ($pdf) {
+      return response()->streamDownload(function () use ($pdf) {
         echo $pdf->stream();
       }, 'employees-selected-' . now()->format('Y-m-d') . '.pdf');
     }
@@ -224,7 +224,7 @@
         session()->flash('message', 'Employees imported successfully.');
         
         $this->importFile = null;
-      } catch (\Exception $e) {
+      } catch (Exception $e) {
         session()->flash('error', 'Import failed: ' . $e->getMessage());
       }
     }

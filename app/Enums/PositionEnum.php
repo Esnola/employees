@@ -1,17 +1,18 @@
 <?php
-
-namespace App\Enums;
-
-enum PositionEnum:string
-{
+  
+  namespace App\Enums;
+  
+  enum PositionEnum: string
+  {
     case Analyst = 'Analyst';
     case Coordinator = 'Coordinator';
     case Designer = 'Designer';
     case Developer = 'Developer';
     case Manager = 'Manager';
     case SeniorDeveloper = 'Senior Developer';
-  
-  public function classes(): string
+    
+    
+    public function classes(): string
     {
       return match ($this) {
         self::Analyst => 'bg-blue-100/30! text-blue-500! border border-blue-500!',
@@ -22,4 +23,4 @@ enum PositionEnum:string
         self::SeniorDeveloper => 'bg-red-100/30! text-red-500! border border-red-500!',
       };
     }
-}
+  }

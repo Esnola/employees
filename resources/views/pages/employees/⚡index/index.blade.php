@@ -2,9 +2,9 @@
   {{-- Header --}}
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="text-2xl font-semibold text-gray-900">Employees</h1>
+      <h1 class="text-2xl font-semibold text-gray-900">{{ __('Employees')}}</h1>
       <p class="mt-2 text-sm text-gray-700">
-        A list of all employees including their name, email, department, and status.
+        {{ __('A list of all employees including their name, email, department, and status.') }}
       </p>
     </div>
 
@@ -43,54 +43,11 @@
       </div>
     </div>
   @endif
-
-  {{-- Filters --}}
   <div class="mt-8 flex flex-col md:flex-row gap-4">
-    {{-- Search --}}
-    <div class="flex-1">
-      <input wire:model.live.debounce.300ms="search" type="text" placeholder="Search employees..."
-             class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-    </div>
-
-
-    {{-- Positions Filter --}}
-    <div class="w-full md:w-48">
-      <select wire:model.live="position"
-              class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-        <option value="">All Positions</option>
-        @foreach($this->positions as $position)
-          <option value="{{ $position }}">{{ $position }}</option>
-        @endforeach
-      </select>
-    </div>
-
-    {{-- Department Filter --}}
-    <div class="w-full md:w-48">
-      <select wire:model.live="department"
-              class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-        <option value="">All Departments</option>
-        @foreach($this->departments as $dept)
-          <option value="{{ $dept }}">{{ $dept }}</option>
-        @endforeach
-      </select>
-    </div>
-
-    {{-- Status Filter --}}
-    <div class="w-full md:w-40">
-      <select wire:model.live="status"
-              class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-        <option value="">All Status</option>
-        @foreach($this->statuses as $statusOption)
-          <option value="{{ $statusOption->value }}">{{ ucfirst($statusOption->value) }}</option>
-        @endforeach
-      </select>
-    </div>
-
-    {{-- Reset Filters --}}
-    <button wire:click="resetFilters"
-            class="cursor-pointer items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      Reset
-    </button>
+    {{-- Filters & Search --}}
+    <x-search/>
+    <x-filters/>
+    <x-reset-filters/>
   </div>
 
   {{-- Bulk Actions --}}
@@ -102,11 +59,11 @@
       <div class="flex gap-2">
         <button wire:click="exportSelected"
                 class="cursor-pointer items-center px-3 py-2 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
-          Export Selected
+          {{__('Export Selected')}}
         </button>
         <button wire:click="bulkDelete" wire:confirm="Are you sure you want to delete the selected employees?"
                 class="cursor-pointer items-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200">
-          Delete Selected
+          {{__('Delete Selected')}}
         </button>
       </div>
     </div>
@@ -129,8 +86,7 @@
               <th wire:click="sortBy('first_name')"
                   class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 <div class="flex items-center gap-2">
-                  Name
-                  @if($sortField === 'first_name')
+                  {{__('Name')  }}             @if($sortField === 'first_name')
                     <span>
                       @if($sortDirection === 'asc')
                         ↑
@@ -142,6 +98,7 @@
                 </div>
               </th>
 
+              {{-- Email --}}
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 Email
               </th>
@@ -150,7 +107,7 @@
               <th wire:click="sortBy('department')"
                   class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 <div class="flex items-center gap-2">
-                  Department
+                  {{__('Department')}}
                   @if($sortField === 'department')
                     <span>
                       @if($sortDirection === 'asc')
@@ -163,15 +120,29 @@
                 </div>
               </th>
 
+              {{-- Sortable Position --}}
+              <th wire:click="sortBy('position')"
+                  class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <div class="flex items-center gap-2">
+                  {{__('Position')}}
+                  @if($sortField === 'position')
+                    <span>
+                      @if($sortDirection === 'asc')
+                        ↑
+                      @else
+                        ↓
+                      @endif
+                    </span>
+                  @endif
+                </div>
+              </th>
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                Position
+                {{__('Status') }}
               </th>
 
-              <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                Status
-              </th>
-
+              {{-- Actions --}}
               <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                {{ __('Actions') }}
                 <span class="sr-only">Actions</span>
               </th>
             </tr>
@@ -186,7 +157,7 @@
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
                   <flux:link class="font-medium no-underline! hover:underline text-stone-400 hover:text-stone-500"
-                        href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}
+                             href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}
                   </flux:link>
                 </td>
 
@@ -195,42 +166,30 @@
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4">
-                  <flux:badge class="{{$employee->department->classes()}}">{{ $employee->department }}</flux:badge>
+                  <flux:badge
+                          class="{{$employee->department->classes()}}">{{ __($employee->department->value) }}</flux:badge>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <flux:badge class="{{$employee->position->classes()}}">{{ $employee->position }}</flux:badge>
+                  <flux:badge
+                          class="{{$employee->position->classes()}}">{{ __($employee->position->value) }}</flux:badge>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
                   <span class="inline-flex rounded-md px-2 text-xs font-semibold leading-5 border
                       {{ $employee->status->classes() }}">
-                      {{ ucfirst($employee->status->value) }}
+                      {{ ucfirst(__($employee->status->value)) }}
                       </span>
                 </td>
 
                 <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-
-                  <div class="flex justify-end gap-2">
-                    <a  href="{{ route('employees.show', $employee) }}"
-                            class="cursor-pointer border border-blue-600 bg-blue-100/50 rounded-md px-4 py-2 text-sm font-medium text-blue-400">
-                      View
-                    </a>
-                    <a href="{{ route('employees.edit', $employee) }}"
-                            class="cursor-pointer border border-green-600 bg-green-100/50 rounded-md px-4 py-2 text-sm font-medium text-green-400">
-                      Edit
-                    </a>
-                    <button wire:click="confirmDelete({{ $employee->id }})"
-                            class="cursor-pointer border border-red-600 bg-red-100/50 rounded-md px-4 py-2 text-sm font-medium text-red-400">
-                      Delete
-                    </button>
-                  </div>
+                  <x-employee-buttons :employee="$employee"/>
                 </td>
               </tr>
             @empty
               <tr>
                 <td colspan="7" class="px-3 py-8 text-center text-sm text-gray-500">
-                  No employees found.
+                  {{ __('No employees found.')}}
                 </td>
               </tr>
             @endforelse

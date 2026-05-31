@@ -1,5 +1,8 @@
 <?php
   
+  use App\Enums\DepartmentEnum;
+  use App\Enums\PositionEnum;
+  use App\Enums\StatusEnum;
   use Livewire\Component;
   use App\Models\Employee;
   use Livewire\WithPagination;
@@ -21,6 +24,7 @@
     // Filters
     public $search = '';
     public $department = '';
+    public $position= '';
     public $status = '';
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
@@ -40,6 +44,7 @@
     protected $queryString = [
       'search' => ['except' => ''],
       'department' => ['except' => ''],
+      'position' => ['except' => ''],
       'status' => ['except' => ''],
       'sortField' => ['except' => 'first_name'],
       'sortDirection' => ['except' => 'asc'],
@@ -51,6 +56,7 @@
       return Employee::query()
         ->when($this->search, fn($q) => $q->search($this->search))
         ->when($this->department, fn($q) => $q->where('department', $this->department))
+        ->when($this->position, fn($q) => $q->where('position', $this->position))
         ->when($this->status, fn($q) => $q->where('status', $this->status))
         ->orderBy($this->sortField, $this->sortDirection)
         ->paginate($this->perPage);
@@ -59,10 +65,22 @@
     #[Computed]
     public function departments()
     {
-      return Employee::distinct('department')
+     /* return Employee::distinct('department')
         ->pluck('department')
-        ->sort();
+        ->sort();*/
+        return DepartmentEnum::cases();
     }
+    #[Computed]
+    public function statuses()
+    {
+      return StatusEnum::cases();
+    }
+    #[Computed]
+    public function positions()
+    {
+      return PositionEnum::cases();
+    }
+    
     
     
     public function closeDeleteModal()
@@ -93,6 +111,11 @@
       $this->resetPage();
     }
     
+    public function updatedPosition()
+    {
+      $this->resetPage();
+    }
+    
     public function updatedStatus()
     {
       $this->resetPage();
@@ -100,7 +123,7 @@
     
     public function resetFilters()
     {
-      $this->reset(['search', 'department', 'status']);
+      $this->reset(['search', 'department','position', 'status']);
       $this->resetPage();
     }
     
@@ -143,6 +166,7 @@
     {
       $employees = Employee::query()
         ->when($this->search, fn($q) => $q->search($this->search))
+        ->when($this->position, fn($q) => $q->where('position', $this->position))
         ->when($this->department, fn($q) => $q->where('department', $this->department))
         ->when($this->status, fn($q) => $q->where('status', $this->status))
         ->orderBy($this->sortField, $this->sortDirection)
@@ -209,6 +233,7 @@
     {
       return Employee::query()
         ->when($this->search, fn($q) => $q->search($this->search))
+        ->when($this->position, fn($q) => $q->where('position', $this->position))
         ->when($this->department, fn($q) => $q->where('department', $this->department))
         ->when($this->status, fn($q) => $q->where('status', $this->status))
         ->orderBy($this->sortField, $this->sortDirection)

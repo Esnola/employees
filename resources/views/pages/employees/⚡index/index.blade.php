@@ -7,35 +7,10 @@
         A list of all employees including their name, email, department, and status.
       </p>
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex gap-2">
-      <button wire:click="exportExcel"
-              class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">
-        Export Excel
-      </button>
 
-      <button wire:click="exportPdf"
-              class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">
-        Export PDF
-      </button>
+    {{--Import, Export and Create new buttons --}}
+    <x-header-buttons-group :importFile="$importFile"/>
 
-      <label
-              class="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 cursor-pointer">
-        Import Excel
-        <input type="file" wire:model="importFile" accept=".xlsx,.xls,.csv" class="hidden">
-      </label>
-
-      @if($importFile)
-        <button wire:click="import"
-                class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700">
-          Process Import
-        </button>
-      @endif
-
-      <a href="{{ route('employees.create') }}"
-         class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700">
-        Add Employee
-      </a>
-    </div>
     @if (session()->has('error'))
       <div class="mt-4 rounded-md bg-red-50 p-4">
         <div class="flex">
@@ -77,6 +52,18 @@
              class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
     </div>
 
+
+    {{-- Positions Filter --}}
+    <div class="w-full md:w-48">
+      <select wire:model.live="position"
+              class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+        <option value="">All Positions</option>
+        @foreach($this->positions as $position)
+          <option value="{{ $position }}">{{ $position }}</option>
+        @endforeach
+      </select>
+    </div>
+
     {{-- Department Filter --}}
     <div class="w-full md:w-48">
       <select wire:model.live="department"
@@ -93,8 +80,9 @@
       <select wire:model.live="status"
               class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
         <option value="">All Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
+        @foreach($this->statuses as $statusOption)
+          <option value="{{ $statusOption->value }}">{{ ucfirst($statusOption->value) }}</option>
+        @endforeach
       </select>
     </div>
 
@@ -207,11 +195,11 @@
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4">
-                  <flux:badge class="{{$employee->department->classes()}}">{{ $employee->department->value }}</flux:badge>
+                  <flux:badge class="{{$employee->department->classes()}}">{{ $employee->department }}</flux:badge>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ $employee->position }}
+                  <flux:badge class="{{$employee->position->classes()}}">{{ $employee->position }}</flux:badge>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">

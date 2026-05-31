@@ -14,7 +14,7 @@
     <div class="flex justify-between h-16">
       <div class="flex items-center">
         <h1 class="text-xl font-bold text-gray-900">
-          Employee Management . @isset($employee) {{ $$employee->full_name }} @endisset
+          Employee Management
         </h1>
       </div>
     </div>

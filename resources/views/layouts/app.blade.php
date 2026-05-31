@@ -8,16 +8,13 @@
   @livewireStyles
   <title>{{ $title ?? __('Employee Management') }}</title>
 </head>
-<body class="bg-gray-50 antialiased">
-<nav class="bg-white shadow-sm border-b">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
-      <div class="flex items-center">
-        <h1 class="text-xl font-bold text-gray-900">
+<body class="bg-gray-50 antialiased dark:bg-gray-800">
+<nav class="shadow-sm border-b">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <h1 class="text-xl font-bold">
           {{ __('Employees Management') }}
         </h1>
-      </div>
-    </div>
+        <x-darkmode-switch/>
   </div>
 </nav>
 
@@ -26,5 +23,6 @@
 </main>
 
 @livewireScripts
+@fluxScripts
 </body>
 </html>

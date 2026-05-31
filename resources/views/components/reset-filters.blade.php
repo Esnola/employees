@@ -1,5 +1,5 @@
 {{-- Reset Filters --}}
-<button wire:click="resetFilters"
-        class="cursor-pointer items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-  {{ __('Reset')}}
-</button>
+<x-actions-button
+        clases="cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-transparent dark:text-white/60 dark:border-gray-400/30 dark:hover:bg-white/10"
+        action="resetFilters"
+        text="{{ __('Reset') }}"/>

@@ -20,9 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-    /*  Blaze::optimize()
+      /*Blaze::optimize()
         ->in( resource_path('views/components'), fold:true)
-        ->in(resource_path('views/pages'), fold:true);
-     */
+        ->in(resource_path('views/pages'), fold:true);*/
+     
     }
 }

@@ -1,17 +1,57 @@
 @import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
 
 .button-employee {
     @apply inline-flex items-center cursor-pointer border rounded-md px-2 py-1 text-xs font-medium  hover:scale-110;
 }
 
 h1, h2, h3, h4, h5, h6, p, td, th {
-    @apply text-gray-800/70;
+    @apply text-gray-800/70 dark:text-gray-200/70;
+}
+
+table,thead,tbody,tfoot,tr,td{
+    @apply dark:bg-gray-800 dark:divide-gray-400/30;
+}
+
+input,select,textarea{
+    @apply dark:bg-gray-800 dark:border dark:border-gray-400/30;
+}
+
+.dark input[type="checkbox"]{
+    appearance: none;
+    @apply bg-transparent border border-gray-400/30 text-white;
+}
+
+.dark input[type="checkbox"]:checked {
+    @apply bg-indigo-600 border-indigo-600;
+}
+
+.dark input[type="checkbox"]:checked::after {
+    content:  "";
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 8px;
+    height: 6px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.dark #bulk-actions{
+    @apply bg-transparent border border-gray-400/30 ;
+}
+
+.dark #bulk-actions span{
+    @apply text-white/60;
 }

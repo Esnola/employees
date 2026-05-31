@@ -52,9 +52,9 @@
 
   {{-- Bulk Actions --}}
   @if(count($selected) > 0)
-    <div class="mt-4 bg-indigo-50 p-4 rounded-md flex items-center justify-between">
+    <div id="bulk-actions" class="mt-4 bg-indigo-50 p-4 rounded-md flex items-center justify-between ">
             <span class="text-sm text-indigo-700">
-                {{ count($selected) }} employee(s) selected
+                {{ count($selected) }}  {{ count($selected) > 1 ? __('employees selected') : __('employee selected') }}
             </span>
       <div class="flex gap-2">
         <button wire:click="exportSelected"
@@ -73,7 +73,7 @@
   <div class="mt-8 flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-gray-500/10 ring-opacity-5 md:rounded-lg">
+        <div class="overflow-hidden shadow ring-1 ring-gray-500/10 ring-opacity-5 md:rounded-lg dark:ring-gray-500/30">
           <table class="min-w-full divide-y divide-gray-300">
             <thead class="bg-gray-50">
             <tr>
@@ -181,7 +181,7 @@
                       {{ ucfirst(__($employee->status->value)) }}
                       </span>
                 </td>
-
+                  {{-- Action Buttons --}}
                 <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                   <x-employee-buttons :employee="$employee"/>
                 </td>

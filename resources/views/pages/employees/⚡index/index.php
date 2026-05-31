@@ -162,7 +162,13 @@
       session()->flash('message', 'Selected employees deleted successfully.');
     }
     
-    public function exportPdf()
+    public function gotoButton($route)
+    {
+      return redirect()->route($route);
+     }
+      
+      
+      public function exportPdf()
     {
       $employees = Employee::query()
         ->when($this->search, fn($q) => $q->search($this->search))

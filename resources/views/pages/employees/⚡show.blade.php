@@ -21,7 +21,7 @@
           <flux:icon.bars-arrow-up class="w-6 h-6 -rotate-90 group-hover:text-white"/>
           {{__('Employees List')}}
         </a>
-        <div class="">
+        <div>
           <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
             {{ $employee->full_name }}
           </h1>
@@ -30,16 +30,16 @@
     </div>
 
     <div class=" grid grid-cols-1 gap-5 p-6 md:grid-cols-2">
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           Email
         </p>
-        <p class="mt-2 text-lg font-medium text-slate-900 dark:text-white">
+        <p class="text-lg font-medium text">
           {{ $employee->email }}
         </p>
       </div>
 
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {{__('Department')}}
         </p>
@@ -48,7 +48,7 @@
         </flux:badge>
       </div>
 
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {{__('Position')}}
         </p>
@@ -57,25 +57,25 @@
         </flux:badge>
       </div>
 
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {{__('Salary')}}
         </p>
-        <p class="mt-2 text-lg font-bold text-emerald-600 dark:text-emerald-400">
+        <p class="text-lg font-bold text-emerald-600 dark:text-emerald-400">
           {{ $employee->formatSalary() }}
         </p>
       </div>
 
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {{__('Hire Date')}}
         </p>
-        <p class="mt-2 text-lg font-medium text-slate-900 dark:text-white">
+        <p class="text-lg font-medium text-slate-900 dark:text-white">
           {{ $employee->formatHireDate() }}
         </p>
       </div>
 
-      <div class="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-x-12 rounded-xl min-h-28 border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {{__('Status')}}
         </p>

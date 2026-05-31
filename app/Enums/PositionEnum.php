@@ -11,7 +11,6 @@ enum PositionEnum:string
     case Manager = 'Manager';
     case SeniorDeveloper = 'Senior Developer';
   
-  
   public function classes(): string
     {
       return match ($this) {

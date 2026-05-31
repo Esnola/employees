@@ -1,33 +1,28 @@
 <?php
 
+  use App\Enums\DepartmentEnum;
+  use App\Enums\PositionEnum;
+  use App\Enums\StatusEnum;
   use Livewire\Component;
   use Livewire\Attributes\Title;
   use App\Livewire\Forms\EmployeeForm;
   use App\Models\Employee;
 
-  new #[Title('Edit Employee')] class extends Component {
+  new #[Title('Edit Employee')]
+  class extends Component {
     public EmployeeForm $form;
 
-    public $departments = [
-      'Engineering',
-      'Marketing',
-      'Sales',
-      'HR',
-      'Finance',
-      'Operations'
-    ];
+    public $departments = [];
+    public $positions = [];
+    public $statuses = [];
 
-    public $positions = [
-      'Manager',
-      'Senior Developer',
-      'Developer',
-      'Designer',
-      'Analyst',
-      'Coordinator'
-    ];
 
     public function mount(Employee $employee)
     {
+      $this->departments = DepartmentEnum::cases();
+      $this->positions = PositionEnum::cases();
+      $this->statuses = StatusEnum::cases();
+
       $this->form->setEmployee($employee);
     }
 
@@ -221,8 +216,9 @@
                         id="status"
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  @foreach($statuses as $status)
+                    <option value="{{ $status }}">{{ ucfirst($status->value) }}</option>
+                  @endforeach
                 </select>
                 @error('form.status')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

@@ -1,36 +1,20 @@
 <?php
 
+  use App\Enums\DepartmentEnum;
+  use App\Enums\PositionEnum;
+  use App\Enums\StatusEnum;
   use Livewire\Component;
   use Livewire\Attributes\Title;
   use App\Livewire\Forms\EmployeeForm;
 
-  new #[Title('Create Employee')] class extends Component {
+  new #[Title('Create Employee')]
+  class extends Component {
     public EmployeeForm $form;
-
-    public $departments = [
-      'Engineering',
-      'Marketing',
-      'Sales',
-      'HR',
-      'Finance',
-      'Operations'
-    ];
-
-    public $positions = [
-      'Manager',
-      'Senior Developer',
-      'Developer',
-      'Designer',
-      'Analyst',
-      'Coordinator'
-    ];
 
     public function save()
     {
       $this->form->store();
-
       session()->flash('message', 'Employee created successfully.');
-
       return $this->redirect('/employees');
     }
   };
@@ -143,8 +127,8 @@
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
                   <option value="">Select Department</option>
-                  @foreach($departments as $dept)
-                    <option value="{{ $dept }}">{{ $dept }}</option>
+                  @foreach(DepartmentEnum::cases() as $dept)
+                    <option value="{{ $dept->value }}">{{ $dept->value }}</option>
                   @endforeach
                 </select>
                 @error('form.department')
@@ -163,8 +147,8 @@
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
                   <option value="">Select Position</option>
-                  @foreach($positions as $pos)
-                    <option value="{{ $pos }}">{{ $pos }}</option>
+                  @foreach(PositionEnum::cases() as $pos)
+                    <option value="{{ $pos->value }}">{{ $pos->value }}</option>
                   @endforeach
                 </select>
                 @error('form.position')
@@ -215,8 +199,9 @@
                         id="status"
                         class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                 >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
+                  @foreach(StatusEnum::cases() as $status)
+                    <option value="{{ $status->value }}">{{ $status->value }}</option>
+                  @endforeach
                 </select>
                 @error('form.status')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

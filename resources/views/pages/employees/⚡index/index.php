@@ -61,7 +61,7 @@
       return view('pages.employees.⚡index.index')
         ->title($this->title);
     }
-    #[Computed]
+/*    #[Computed]
     public function employees()
     {
       return Employee::query()
@@ -72,7 +72,7 @@
         ->orderBy($this->sortField, $this->sortDirection)
         ->paginate($this->perPage);
     }
-    
+    */
     #[Computed]
     public function departments()
     {
@@ -111,25 +111,35 @@
     }
     
     #[Computed]
-    public function rows()
+    public function employees()
     {
-      $enumFields = ['position', 'status']; // campos que son enums con traducción
+      $enumFields = ['position', 'status', 'department'];
       
-      $query = Employee::query();
+      $query = Employee::query()
+        ->when($this->search, fn($q) => $q->search($this->search))
+        ->when($this->department, fn($q) => $q->where('department', $this->department))
+        ->when($this->position, fn($q) => $q->where('position', $this->position))
+        ->when($this->status, fn($q) => $q->where('status', $this->status));
       
       if (!in_array($this->sortField, $enumFields)) {
-        // Ordenar en SQL para campos normales
-        $query->orderBy($this->sortField, $this->sortDirection);
-        return $query->get();
+        return $query->orderBy($this->sortField, $this->sortDirection)->paginate($this->perPage);
       }
       
-      // Ordenar en PHP para campos enum
-      return $query->get()->sortBy(
+      $sorted = $query->get()->sortBy(
         fn($model) => $model->{$this->sortField}->label(),
         descending: $this->sortDirection === 'desc'
+      )->values();
+      
+      $page = $this->getPage(); // <-- aquí
+      
+      return new \Illuminate\Pagination\LengthAwarePaginator(
+        $sorted->forPage($page, $this->perPage),
+        $sorted->count(),
+        $this->perPage,
+        $page,
+        ['path' => request()->url()]
       );
     }
-    
   /*  public function sortBy($field)
     {
       if ($this->sortField === $field) {

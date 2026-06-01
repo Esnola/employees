@@ -11,6 +11,17 @@
     case Operations = 'Operations';
     case Sales = 'Sales';
     
+    public function label(): string{
+      return match($this) {
+        self::Engineering => __('Engineering'),
+        self::Finance => __('Finance'),
+        self::HR => __('HR'),
+        self::Marketing => __('Marketing'),
+        self::Operations => __('Operations'),
+        self::Sales => __('Sales'),
+      };
+    }
+    
     
     public function classes(): string
     {

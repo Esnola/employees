@@ -15,7 +15,7 @@
     @apply inline-flex items-center cursor-pointer border rounded-md px-2 py-1 text-xs font-medium  hover:scale-110;
 }
 
-h1, h2, h3, h4, h5, h6, p, td, th {
+h1, h2, h3, h4, h5, h6, p, td, th, label {
     @apply text-gray-800/70 dark:text-gray-200/70;
 }
 
@@ -23,8 +23,8 @@ table,thead,tbody,tfoot,tr,td{
     @apply dark:bg-gray-800 dark:divide-gray-400/30;
 }
 
-input,select,textarea{
-    @apply dark:bg-gray-800 dark:border dark:border-gray-400/30;
+input:not([type="submit"],[type="reset"],[type="checkbox"],[type="file"]),select,textarea{
+    @apply py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600 ring-1 ring-gray-300 dark:ring-gray-300/30 dark:bg-gray-800 dark:border dark:border-gray-400/30 mt-2;
 }
 
 .dark input[type="checkbox"]{

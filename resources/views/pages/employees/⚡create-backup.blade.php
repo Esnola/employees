@@ -1,0 +1,220 @@
+<?php
+
+  use App\Enums\DepartmentEnum;
+  use App\Enums\PositionEnum;
+  use App\Enums\StatusEnum;
+  use Livewire\Component;
+  use Livewire\Attributes\Title;
+  use App\Livewire\Forms\EmployeeForm;
+
+  new #[Title('Create Employee')]
+  class extends Component {
+    public EmployeeForm $form;
+
+    public function save()
+    {
+      $this->form->store();
+      session()->flash('message', 'Employee created successfully.');
+      return $this->redirect('/employees');
+    }
+  };
+
+?>
+
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+        {{__('Create Employee')}}
+      </h2>
+    </div>
+  </div>
+
+  <div class="mt-8 max-w-3xl">
+    <form wire:submit="save">
+      <div class="space-y-6">
+        {{-- Personal Information --}}
+        <div class="bg-white shadow sm:rounded-lg dark:bg-gray-800">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
+              {{__('Personal Information')}}
+            </h3>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {{-- First Name --}}
+              <div>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">
+                  {{__('First Name')}}
+                </label>
+                <input
+                        wire:model.blur="form.first_name"
+                        type="text"
+                        id="first_name"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.first_name')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Last Name --}}
+              <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">
+                  {{__('Last Name')}}
+                </label>
+                <input
+                        wire:model.blur="form.last_name"
+                        type="text"
+                        id="last_name"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.last_name')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Email --}}
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                        wire:model.blur="form.email"
+                        type="email"
+                        id="email"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.email')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Phone --}}
+              <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700">
+                  {{__('Phone')}}
+                </label>
+                <input
+                        wire:model="form.phone"
+                        type="text"
+                        id="phone"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.phone')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{-- Employment Information --}}
+        <div class="bg-white shadow sm:rounded-lg dark:bg-gray-800">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">
+              {{__('Employment Information')}}
+            </h3>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {{-- Department --}}
+              <div>
+                <label for="department" class="block text-sm font-medium text-gray-700">
+                  {{__('Department')}}
+                </label>
+                <select
+                        wire:model="form.department"
+                        id="department"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                  <option value="">{{__('Select Department')}}</option>
+                  @foreach(DepartmentEnum::cases() as $dept)
+                    <option value="{{ $dept->value }}">{{ __($dept->value) }}</option>
+                  @endforeach
+                </select>
+                @error('form.department')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Position --}}
+              <div>
+                <label for="position" class="block text-sm font-medium text-gray-700">
+                  {{__('Position')}}
+                </label>
+                <select
+                        wire:model="form.position"
+                        id="position"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                  <option value="">{{__('Select Position')}}</option>
+                  @foreach(PositionEnum::cases() as $pos)
+                    <option value="{{ $pos->value }}">{{ __($pos->value) }}</option>
+                  @endforeach
+                </select>
+                @error('form.position')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Salary --}}
+              <div>
+                <label for="salary" class="block text-sm font-medium text-gray-700">
+                  {{__('Salary')}}
+                </label>
+                <input
+                        wire:model.blur="form.salary"
+                        type="number"
+                        id="salary"
+                        step="0.01"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.salary')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Hire Date --}}
+              <div>
+                <label for="hire_date" class="block text-sm font-medium text-gray-700">
+                  {{__('Hire Date')}}
+                </label>
+                <input
+                        wire:model="form.hire_date"
+                        type="date"
+                        id="hire_date"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                @error('form.hire_date')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+
+              {{-- Status --}}
+              <div class="sm:col-span-2">
+                <label for="status" class="block text-sm font-medium text-gray-700">
+                  {{__('Status')}}
+                </label>
+                <select
+                        wire:model="form.status"
+                        id="status"
+                        class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                >
+                  @foreach(StatusEnum::cases() as $status)
+                    <option value="{{ $status->value }}">{{ ucfirst(__($status->value)) }}</option>
+                  @endforeach
+                </select>
+                @error('form.status')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{-- Buttons Action --}}
+        <x-buttons-form :route="route('employees.index')" :textbutton="__('Create Employee')"/>
+
+      </div>
+    </form>
+  </div>
+</div>

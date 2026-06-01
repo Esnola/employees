@@ -7,19 +7,27 @@
   use Livewire\Attributes\Title;
   use App\Livewire\Forms\EmployeeForm;
 
-  new #[Title('Create Employee')]
-  class extends Component {
+  new class extends Component {
+    public string $title = "";
     public EmployeeForm $form;
 
     public $departments = [];
     public $positions = [];
     public $statuses = [];
 
+
     public function mount()
     {
+      $this->title= __('Create Employee');
       $this->departments = DepartmentEnum::cases();
       $this->positions = PositionEnum::cases();
       $this->statuses = StatusEnum::cases();
+    }
+
+    public function render()
+    {
+      return view('pages.employees.⚡create')
+        ->title($this->title);
     }
 
     public function save()
@@ -34,8 +42,8 @@
 <div class="px-4 sm:px-6 lg:px-8">
   <div class="md:flex md:items-center md:justify-between">
     <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-        {{__('Create Employee')}}
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl">
+        {{$title}}
       </h2>
     </div>
   </div>
@@ -62,7 +70,7 @@
               <x-input-form for="email" label="Email" type="email"/>
 
               {{-- Phone --}}
-              <x-input-form for="phone" label="Phone" type="text"/>
+              <x-input-form for="phone" label="{{__('Phone')}}" type="text"/>
             </div>
           </div>
         </div>
@@ -82,10 +90,10 @@
               <x-select-form :label="__('Position')" :for="'position'" :loop="$positions"/>
 
               {{-- Salary --}}
-              <x-input-form for="salary" label="Salary" type="number" />
+              <x-input-form for="salary" label="{{__('Salary')}}" type="number" />
 
               {{-- Hire Date --}}
-              <x-input-form for="hire_date" label="Hire Date" type="date"/>
+              <x-input-form for="hire_date" label="{{__('Hire Date')}}" type="date"/>
 
               {{-- Status --}}
               <div class="sm:col-span-2">
@@ -96,7 +104,7 @@
         </div>
 
         {{-- Actions --}}
-        <x-buttons-form :route="route('employees.create')" textbutton="Create Employee"/>
+        <x-buttons-form :route="route('employees.index')" textbutton="Create Employee"/>
       </div>
     </form>
   </div>

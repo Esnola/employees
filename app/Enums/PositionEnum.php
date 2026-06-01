@@ -11,6 +11,17 @@
     case Manager = 'Manager';
     case SeniorDeveloper = 'Senior Developer';
     
+    public function label(): string
+    {
+      return match($this) {
+        self::Analyst => __('Analyst'),
+        self::Coordinator => __('Coordinator'),
+        self::Designer => __('Designer'),
+        self::Developer => __('Developer'),
+        self::Manager => __('Manager'),
+        self::SeniorDeveloper => __('Senior Developer'),
+      };
+    }
     
     public function classes(): string
     {

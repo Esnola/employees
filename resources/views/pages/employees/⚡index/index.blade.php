@@ -2,7 +2,6 @@
   {{-- Header --}}
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="text-2xl font-semibold text-gray-900">{{ __('Employees')}}</h1>
       <p class="mt-2 text-sm text-gray-700">
         {{ __('A list of all employees including their name, email, department, and status.') }}
       </p>
@@ -25,24 +24,10 @@
   </div>
 
   {{-- Flash Message --}}
-  @if (session()->has('message'))
-    <div class="mt-4 rounded-md bg-green-50 p-4">
-      <div class="flex">
-        <div class="shrink-0">
-          <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </div>
-        <div class="ml-3">
-          <p class="text-sm font-medium text-green-800">
-            {{ session('message') }}
-          </p>
-        </div>
-      </div>
-    </div>
-  @endif
+ @if (session()->has('message'))
+    <x-flash-message/>
+ @endif
+
   <div class="mt-8 flex flex-col md:flex-row gap-4">
     {{-- Filters & Search --}}
     <x-search/>
@@ -57,14 +42,11 @@
                 {{ count($selected) }}  {{ count($selected) > 1 ? __('employees selected') : __('employee selected') }}
             </span>
       <div class="flex gap-2">
-        <button wire:click="exportSelected"
-                class="cursor-pointer items-center px-3 py-2 border border-indigo-300 text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
-          {{__('Export Selected')}}
-        </button>
-        <button wire:click="bulkDelete" wire:confirm="Are you sure you want to delete the selected employees?"
-                class="cursor-pointer items-center px-3 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200">
-          {{__('Delete Selected')}}
-        </button>
+        <x-actions-button action="exportSelected" text="{{__('Export Selected')}}"/>
+        <x-actions-button
+                action="bulkDelete" text="{{__('Delete Selected')}}"
+                confirm="Are you sure you want to delete the selected employees?"
+                clases=" border-red-300 text-red-700 bg-red-100 hover:bg-red-200"/>
       </div>
     </div>
   @endif
@@ -83,20 +65,7 @@
               </th>
 
               {{-- Sortable Name Column --}}
-              <th wire:click="sortBy('first_name')"
-                  class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                <div class="flex items-center gap-2">
-                  {{__('Name')  }}             @if($sortField === 'first_name')
-                    <span>
-                      @if($sortDirection === 'asc')
-                        ↑
-                      @else
-                        ↓
-                      @endif
-                     </span>
-                  @endif
-                </div>
-              </th>
+               <x-shortable-th field="first_name" :sortDirection="$sortDirection" :sortField="$sortField" text="{{__('Name')}}"  />
 
               {{-- Email --}}
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -104,38 +73,11 @@
               </th>
 
               {{-- Sortable Department --}}
-              <th wire:click="sortBy('department')"
-                  class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                <div class="flex items-center gap-2">
-                  {{__('Department')}}
-                  @if($sortField === 'department')
-                    <span>
-                      @if($sortDirection === 'asc')
-                        ↑
-                      @else
-                        ↓
-                      @endif
-                    </span>
-                  @endif
-                </div>
-              </th>
+              <x-shortable-th field="department" :sortDirection="$sortDirection" :sortField="$sortField" text="{{__('Department')}}"/>
 
               {{-- Sortable Position --}}
-              <th wire:click="sortBy('position')"
-                  class="cursor-pointer px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                <div class="flex items-center gap-2">
-                  {{__('Position')}}
-                  @if($sortField === 'position')
-                    <span>
-                      @if($sortDirection === 'asc')
-                        ↑
-                      @else
-                        ↓
-                      @endif
-                    </span>
-                  @endif
-                </div>
-              </th>
+              <x-shortable-th field="position" :sortDirection="$sortDirection" :sortField="$sortField" text="{{__('Position')}}"/>
+
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 {{__('Status') }}
               </th>

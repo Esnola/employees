@@ -19,6 +19,10 @@ h1, h2, h3, h4, h5, h6, p, td, th, label {
     @apply text-gray-800/70 dark:text-gray-200/70;
 }
 
+p.error{
+    @apply text-red-600;
+}
+
 table,thead,tbody,tfoot,tr,td{
     @apply dark:bg-gray-800 dark:divide-gray-400/30;
 }

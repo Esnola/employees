@@ -14,10 +14,10 @@
   use Livewire\WithPagination;
   use Maatwebsite\Excel\Facades\Excel;
   
-  new #[Title('Employees')]
-  class extends Component {
+  new class extends Component {
     use WithPagination;
     use WithFileUploads;
+    public string $title ='';
     
     // Add property for import
     public $importFile;
@@ -51,6 +51,16 @@
       'sortDirection' => ['except' => 'asc'],
     ];
     
+    
+    public function mount()
+    {
+      $this->title = __('Employees List');
+    }
+    public function render()
+    {
+      return view('pages.employees.⚡index.index')
+        ->title($this->title);
+    }
     #[Computed]
     public function employees()
     {
@@ -88,7 +98,7 @@
       // $this->reset(['employeeToDeleteId', 'employeeToDeleteName']);
     }
     
-    public function sortBy($field)
+    public function sortBy(string $field): void
     {
       if ($this->sortField === $field) {
         $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -99,6 +109,38 @@
       
       $this->resetPage();
     }
+    
+    #[Computed]
+    public function rows()
+    {
+      $enumFields = ['position', 'status']; // campos que son enums con traducción
+      
+      $query = Employee::query();
+      
+      if (!in_array($this->sortField, $enumFields)) {
+        // Ordenar en SQL para campos normales
+        $query->orderBy($this->sortField, $this->sortDirection);
+        return $query->get();
+      }
+      
+      // Ordenar en PHP para campos enum
+      return $query->get()->sortBy(
+        fn($model) => $model->{$this->sortField}->label(),
+        descending: $this->sortDirection === 'desc'
+      );
+    }
+    
+  /*  public function sortBy($field)
+    {
+      if ($this->sortField === $field) {
+        $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        $this->sortField = $field;
+        $this->sortDirection = 'asc';
+      }
+      
+      $this->resetPage();
+    }*/
     
     public function updatedSearch()
     {
@@ -159,7 +201,7 @@
       $this->selected = [];
       $this->selectAll = false;
       
-      session()->flash('message', 'Selected employees deleted successfully.');
+      session()->flash('message', __('Selected employees deleted successfully.'));
     }
     
     public function gotoButton($route)

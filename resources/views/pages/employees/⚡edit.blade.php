@@ -24,14 +24,19 @@
       $this->statuses = StatusEnum::cases();
       $this->employee = $employee;
       $this->form->setEmployee($employee);
+      $this->title= __('Editing Employee').": ".$employee->full_name;
+    }
+
+    public function render()
+    {
+      return view('pages.employees.⚡edit')
+        ->title($this->title);
     }
 
     public function save()
     {
       $this->form->update();
-
       session()->flash('message', 'Employee updated successfully.');
-
       return $this->redirect('/employees');
     }
   };
@@ -41,10 +46,9 @@
 <div class="px-4 sm:px-6 lg:px-8">
   <div class="md:flex md:items-center md:justify-between">
     <div class="min-w-0 flex-1 flex gap-2 items-center">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900/80 sm:truncate sm:text-3xl sm:tracking-tight">
-        {{ __('Edit Employee')}}: {{ $this->employee->full_name }}
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-wide pb-2">
+        {{__('Editing Employee') }}: <span class="font-normal underline underline-offset-8">{{ $this->employee->full_name }}</span>
       </h2>
-      <flux:icon.user class="size-6"/>
     </div>
   </div>
 

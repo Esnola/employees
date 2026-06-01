@@ -5,9 +5,22 @@
   use Livewire\Attributes\Title;
   use Livewire\Component;
   
-  new #[Title('Showing Employee')]
-  class extends Component {
+  new class extends Component {
     public Employee $employee;
+    public string $title = "";
+
+
+    public function mount()
+    {
+      $this->title = __('Employee') . ": " . $this->employee->full_name;
+    }
+
+    public function render()
+    {
+      return view('pages.employees.⚡show')
+        ->title($this->title);
+    }
+
   }
 
 ?>

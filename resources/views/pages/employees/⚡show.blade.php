@@ -38,7 +38,7 @@
           <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
             {{ $employee->full_name }}
           </h1>
-          <a href="{{route('employees.edit',$employee)}}" class="button-employee">{{__('Edit')}}</a></div>
+          <a href="{{route('employees.index', ['edit' => $employee->id])}}" class="button-employee">{{__('Edit')}}</a></div>
       </div>
     </div>
 

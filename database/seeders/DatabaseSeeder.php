@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Employee;
 use App\Models\User;
-use Database\Factories\EmployeeFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,8 +22,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);*/
-    
-        Employee::factory(50)->create();
-      
+
+        Employee::factory(150)->create();
+
     }
 }

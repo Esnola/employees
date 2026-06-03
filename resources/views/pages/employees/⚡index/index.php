@@ -9,12 +9,12 @@
   use Barryvdh\DomPDF\Facade\Pdf;
   use Illuminate\Pagination\LengthAwarePaginator;
   use Livewire\Attributes\Computed;
-  use Livewire\Attributes\Title;
+ // use Livewire\Attributes\Title;
   use Livewire\Component;
   use Livewire\WithFileUploads;
   use Livewire\WithPagination;
   use Maatwebsite\Excel\Facades\Excel;
-  use function Laravel\Prompts\alert;
+//  use function Laravel\Prompts\alert;
   use App\Livewire\Forms\EmployeeForm;
   use Flux\Flux;
   
@@ -22,7 +22,7 @@
     use WithPagination;
     use WithFileUploads;
     public string $title ='';
-    
+
     // Add property for import
     public $importFile;
     
@@ -43,7 +43,7 @@
     public EmployeeForm $form;
     public ?Employee $employee = null;
     public ?Employee $editingEmployee = null;
-    
+    public ?string $employeeFullName="";
     // Pagination
     public $perPage = 10;
     
@@ -52,12 +52,11 @@
     public $selectAll = false;
     
     // Modal state
-    //public $showDeleteModal = false;
+    public bool $showDeleteModal = false;
     
-    public $employeeToDelete = null;
     
     // Query string for URL persistence
-    protected $queryString = [
+    protected array $queryString = [
       'search' => ['except' => ''],
       'department' => ['except' => ''],
       'position' => ['except' => ''],
@@ -66,53 +65,34 @@
       'sortDirection' => ['except' => 'asc'],
     ];
     
-/*
-    public function mount()
-    {
-      $this->title = __('Employees List');
-    }*/
-    public function render()
-    {
-      return view('pages.employees.⚡index.index')
-        ->title($this->title);
-    }
-
     public function hasActiveFilters(): bool
     {
       return $this->search || $this->department || $this->position || $this->status;
     }
-    /*
-    #[Computed]
-    public function departments()
-    {
-      return DepartmentEnum::cases();
-    }
-    
-    #[Computed]
-    public function statuses()
-    {
-      return StatusEnum::cases();
-    }
-    
-    #[Computed]
-    public function positions()
-    {
-      return PositionEnum::cases();
-    }
-   
+
     public function closeDeleteModal()
     {
-      $this->showDeleteModal = false;
+      $this->dispatch('close-flux-modal-with-transition', name: 'delete-employee');
     }
-    */
+
     public function mount()
     {
       $this->departments = DepartmentEnum::cases();
       $this->positions = PositionEnum::cases();
       $this->statuses = StatusEnum::cases();
       $this->title = __('Employees List');
+
+      $employeeId = request()->integer('edit');
+
+      if ($employeeId) {
+        $employee = Employee::find($employeeId);
+
+        if ($employee) {
+          $this->edit($employee);
+        }
+      }
     }
-    
+
     public function sortBy(string $field): void
     {
       if ($this->sortField === $field) {
@@ -175,25 +155,26 @@
  
     public function resetFilters()
     {
-     /* $this->reset(['search', 'department', 'position', 'status']);
-      $this->resetPage();*/
+      $this->reset(['search', 'department', 'position', 'status']);
+      $this->resetPage();
       return to_route('employees.index');
     }
     
     public function confirmDelete($employeeId)
     {
-      $this->employeeToDelete = $employeeId;
-    //  $this->showDeleteModal = true;
+      $this->employee = Employee::find($employeeId);
+      $this->employeeFullName = $this->employee->full_name;
     }
     
     public function deleteEmployee()
     {
-      if ($this->employeeToDelete) {
-        Employee::find($this->employeeToDelete)->delete();
-      //  $this->showDeleteModal = false;
-        $this->employeeToDelete = null;
+      if ($this->employee) {
+        $this->employee->delete();
+        $this->dispatch('close-flux-modal-with-transition', name: 'delete-employee');
+        $this->employee = null;
+        $this->employeeFullName = '';
         
-        session()->flash('message', 'Employee deleted successfully.');
+        session()->flash('message', __('Employee deleted successfully.'));
       }
     }
     
@@ -306,11 +287,26 @@
       
       Flux::modal('edit-employee')->show();
     }
+
+    public function create(): void
+    {
+      $this->editingEmployee = null;
+      $this->form->reset();
+
+      Flux::modal('create-employee')->show();
+    }
+
+    public function store(): void
+    {
+      $this->form->store();
+      $this->dispatch('close-flux-modal-with-transition', name: 'create-employee');
+      session()->flash('message', __('Employee created successfully.'));
+    }
     
     public function update(): void
     {
       $this->form->update();
-      Flux::modal('edit-employee')->close();
+      $this->dispatch('close-flux-modal-with-transition', name: 'edit-employee');
       session()->flash('message', __('Employee updated successfully.'));
     }
   };

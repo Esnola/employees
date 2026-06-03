@@ -10,13 +10,94 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
+[data-flux-modal] > dialog[data-modal="create-employee"],
+[data-flux-modal] > dialog[data-modal="edit-employee"] {
+    --flux-flyout-translate: translateX(min(42rem, 72vw));
+    transition:
+        opacity 250ms ease-in allow-discrete,
+        transform 420ms cubic-bezier(0.32, 0.72, 0, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="create-employee"][open],
+[data-flux-modal] > dialog[data-modal="edit-employee"][open] {
+    transition:
+        opacity 220ms ease-out allow-discrete,
+        transform 520ms cubic-bezier(0.16, 1, 0.3, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="create-employee"][data-closing],
+[data-flux-modal] > dialog[data-modal="edit-employee"][data-closing] {
+    opacity: 0;
+    transform: scale(1) var(--flux-flyout-translate);
+    transition:
+        opacity 250ms ease-in allow-discrete,
+        transform 420ms cubic-bezier(0.32, 0.72, 0, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="create-employee"][data-closing]::backdrop,
+[data-flux-modal] > dialog[data-modal="edit-employee"][data-closing]::backdrop {
+    opacity: 0;
+    transition: opacity 250ms ease-in allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="delete-employee"] {
+    transform: translateY(1.75rem) scale(0.9);
+    transition:
+        opacity 180ms ease-in allow-discrete,
+        transform 260ms cubic-bezier(0.4, 0, 1, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="delete-employee"][open] {
+    transform: translateY(0) scale(1);
+    transition:
+        opacity 180ms ease-out allow-discrete,
+        transform 340ms cubic-bezier(0.16, 1, 0.3, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="delete-employee"][data-closing] {
+    opacity: 0;
+    transform: translateY(1.75rem) scale(0.92);
+    transition:
+        opacity 160ms ease-in allow-discrete,
+        transform 260ms cubic-bezier(0.4, 0, 1, 1) allow-discrete;
+}
+
+[data-flux-modal] > dialog[data-modal="delete-employee"][data-closing]::backdrop {
+    opacity: 0;
+    transition: opacity 160ms ease-in allow-discrete;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-flux-modal] > dialog[data-modal="create-employee"],
+    [data-flux-modal] > dialog[data-modal="edit-employee"],
+    [data-flux-modal] > dialog[data-modal="create-employee"][open],
+    [data-flux-modal] > dialog[data-modal="edit-employee"][open],
+    [data-flux-modal] > dialog[data-modal="create-employee"][data-closing],
+    [data-flux-modal] > dialog[data-modal="edit-employee"][data-closing],
+    [data-flux-modal] > dialog[data-modal="delete-employee"],
+    [data-flux-modal] > dialog[data-modal="delete-employee"][open],
+    [data-flux-modal] > dialog[data-modal="delete-employee"][data-closing] {
+        --flux-flyout-translate: translateX(0);
+        transform: translateY(0) scale(1);
+        transition: opacity 120ms ease-out allow-discrete;
+    }
+}
+
 
 .button-employee {
     @apply inline-flex items-center cursor-pointer border rounded-md px-2 py-1 text-xs font-medium  hover:scale-110;
 }
 
-h1, h2, h3, h4, h5, h6, p, td, th, label {
+h1, h2, h3, h4, h5, h6, p, td, th {
     @apply text-gray-800/70 dark:text-gray-200/70;
+}
+
+dialog label {
+    @apply text-gray-800/70 dark:text-gray-100/70;
 }
 
 p.error{
@@ -52,10 +133,7 @@ input:not([type="submit"],[type="reset"],[type="checkbox"],[type="file"]),select
     transform: rotate(45deg);
 }
 
-.dark #bulk-actions{
-    @apply bg-transparent border border-gray-400/30 ;
-}
 
-.dark #bulk-actions span{
-    @apply text-white/60;
+.dark #bulk-actions button{
+    @apply bg-transparent border border-gray-400/30 text-white/60 ;
 }

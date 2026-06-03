@@ -5,7 +5,7 @@
   <button x-show="search.length > 0" x-cloak
           type="button"
           @click="search = ''"
-          class="flex cursor-pointer items-center px-2 py-1 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-2">
+          class="flex cursor-pointer items-center px-2 py-1 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-2 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white">
     <flux:icon.x-circle class="size-6"/>
   </button>
 </div>

@@ -1,14 +1,12 @@
 <div class="flex justify-end gap-2">
-  <button href="{{ route('employees.show', $employee) }}"
-          wire:navigate
-          class="button-employee border-blue-600 bg-blue-300/30 dark:bg-transparent text-blue-400">
+  <a href="{{ route('employees.show', $employee) }}"
+     wire:navigate
+     class="button-employee border-blue-600 bg-blue-300/30 dark:bg-transparent text-blue-400">
     <flux:icon.eye class="size-4 mr-1"/>
     {{ __('View') }}
-  </button>
+  </a>
   <flux:modal.trigger name="edit-employee">
   <button  wire:click="edit({{ $employee->id }})"
-         {{-- href="{{ route('employees.edit', $employee) }}"
-          wire:navigate--}}
           class="button-employee border-green-600 bg-green-300/30 dark:bg-transparent text-green-400">
     <flux:icon.pencil-square class="size-4 mr-1 -scale-x-100"/>
     {{ __('Edit') }}

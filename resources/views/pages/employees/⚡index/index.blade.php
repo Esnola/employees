@@ -1,4 +1,5 @@
-<div class="px-4 sm:px-6 lg:px-8">
+<div class="px-4 sm:px-6 lg:px-8 relative">
+
   {{-- Header --}}
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
@@ -7,7 +8,7 @@
       </p>
     </div>
 
-    {{--Import, Export and Create new buttons --}}
+    {{--  Import, Export and Create new buttons --}}
     <x-header-buttons-group :importFile="$importFile"/>
 
     @if (session()->has('error'))
@@ -24,6 +25,7 @@
   </div>
 
   {{-- Flash Message --}}
+
   @if (session()->has('message'))
     <x-flash-message/>
   @endif
@@ -34,21 +36,8 @@
     <x-filters/>
   </div>
 
-
   {{-- Bulk Actions --}}
-  @if(count($selected) > 0)
-    <div id="bulk-actions" class="mt-4 bg-indigo-50 p-4 rounded-md flex items-center justify-between ">
-            <span class="text-sm text-indigo-700">
-                {{ count($selected) }}  {{ count($selected) > 1 ? __('employees selected') : __('employee selected') }}
-            </span>
-      <div class="flex gap-2">
-        <x-actions-button action="exportSelected" text="{{__('Export Selected')}}"/>
-        <x-actions-button action="bulkDelete" text="{{__('Delete Selected')}}"
-                          confirm="Are you sure you want to delete the selected employees?"
-                          clases=" border-red-300 text-red-700 bg-red-100 hover:bg-red-200"/>
-      </div>
-    </div>
-  @endif
+  <x-bulk-actions :selected="$selected"/>
 
   {{-- Table --}}
   <div class="mt-8 flex flex-col">
@@ -99,48 +88,48 @@
                          class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6">
                 </td>
 
-                <td class="whitespace-nowrap px-3 py-4 text-sm">
-                  <flux:link class="font-medium no-underline! hover:underline text-stone-400 hover:text-stone-500"
+                <td class="whitespace-nowrap px-3 py-4">
+                  <flux:link class="font-medium no-underline! hover:underline text-gray-500 text-sm"
                              href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}
                   </flux:link>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  {{ $employee->email }}
+                  <a href="mailto:{{ $employee->email }}"
+                     class="hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-sm font-medium text-gray-500 text-sm">
+                    {{ $employee->email }}
+                  </a>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4">
-                  <button
-                          type="button"
+                  <button type="button"
                           wire:click="filterByDepartment('{{ $employee->department->value }}')"
-                          class="cursor-pointer"
-                  >
+                          class="cursor-pointer">
                     <flux:badge
-                            class="{{ $employee->department->classes() }} {{ $department === $employee->department->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
+                            class="{{ $employee->department->classes() }}
+                            {{ $department === $employee->department->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
                       {{ __($employee->department->value) }}
                     </flux:badge>
                   </button>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                  <button
-                          type="button"
+                  <button type="button"
                           wire:click="filterByPosition('{{ $employee->position->value }}')"
                           class="cursor-pointer"
                   >
                     <flux:badge
-                            class="{{ $employee->position->classes() }} {{ $position === $employee->position->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
+                            class="{{ $employee->position->classes() }}
+                            {{ $position === $employee->position->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
                       {{ __($employee->position->value) }}
                     </flux:badge>
                   </button>
                 </td>
 
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
-                  <button
-                          type="button"
+                  <button type="button"
                           wire:click="filterByStatus('{{ $employee->status->value }}')"
-                          class="cursor-pointer"
-                  >
+                          class="cursor-pointer" >
                     <span class="inline-flex rounded-md px-2 text-xs font-semibold leading-5 border {{ $employee->status->classes() }} {{ $status === $employee->status->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
                       {{ ucfirst(__($employee->status->value)) }}
                     </span>
@@ -170,7 +159,26 @@
     {{ $this->employees->links() }}
   </div>
 
- {{-- Edit Flux Modal --}}
+  {{-- Create Flux Modal --}}
+  <flux:modal
+          flyout
+          variant="floating"
+          :dismissible="false"
+          name="create-employee"
+          class="min-w-fit px-[150px] max-w-screen min-h-screen! rounded-none! p-8!
+           bg-white/10! backdrop-blur-xs! border border-white/20!
+           shadow-2xl!">
+    <x-employees.create-edit
+            :title="__('Create Employee')"
+            submit-action="store"
+            textbutton="Create Employee"
+            modal-name="create-employee"
+            :departments="$departments"
+            :positions="$positions"
+            :statuses="$statuses"/>
+  </flux:modal>
+
+  {{-- Edit Flux Modal --}}
   <flux:modal
           flyout
           variant="floating"
@@ -179,15 +187,15 @@
           class="min-w-fit px-[150px] max-w-screen min-h-screen! rounded-none! p-8!
            bg-white/10! backdrop-blur-xs! border border-white/20!
            shadow-2xl!">
-      <x-employees.edit-employee
-              :editing-employee="$editingEmployee"
-              :departments="$departments"
-              :positions="$positions"
-              :statuses="$statuses" />
+    <x-employees.create-edit
+            :editing-employee="$editingEmployee"
+            :departments="$departments"
+            :positions="$positions"
+            :statuses="$statuses"/>
   </flux:modal>
 
   {{-- Delete Confirmation Modal --}}
-  <flux:modal variant="floating" :dismissible="false" name="delete-employee" class="min-w-dvw min-h-full">
-    <x-employees.delete-employee :employeename="$employee?->full_name" :id="$employee->id" />
-    </flux:modal>
+  <flux:modal variant="floating" :dismissible="false" name="delete-employee" class="w-full max-w-lg">
+    <x-employees.delete-employee :employeename="$employeeFullName" :id="$employee?->id"/>
+  </flux:modal>
 </div>

@@ -3,7 +3,7 @@
   'text' => '',
   'route' => null,
   'confirm'=>null,
-  'clases' =>'border-indigo-300 text-indigo-700 bg-indigo-100 hover:bg-indigo-200'
+  'clases' =>'border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-transparent dark:text-white/60 dark:border-gray-400/30 dark:hover:bg-white/10'
 ])
 
 <button

@@ -9,12 +9,15 @@
   <title>{{ $title ?? __('Employee Management') }}</title>
 </head>
 <body class="bg-gray-50 antialiased dark:bg-gray-800">
-<nav class="shadow-sm border-b">
+<nav class="shadow-sm border-b border-gray-200 dark:border-gray-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <h1 class="text-xl font-bold">
-          {{ __('Employees Management') }} : {{$title}}
+          {{ __('Employees Management') }}
         </h1>
-        <x-darkmode-switch/>
+    <div class="flex items-center gap-4">
+      <livewire:language-toggle/>
+      <x-darkmode-switch/>
+    </div>
   </div>
 </nav>
 

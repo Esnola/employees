@@ -1,8 +1,12 @@
-<div x-data="{ show: true }"
+<div x-data="{ show: false }"
+     x-init="$nextTick(() => { show = true; setTimeout(() => show = false, 3000); })"
      x-show="show"
-     x-transition:leave="transition ease-in duration-200"
-     x-transition:leave-start="opacity-100 translate-y-0"
-     x-transition:leave-end="opacity-0 -translate-y-1"
+     x-transition:enter="transition ease-out duration-700"
+     x-transition:enter-start="opacity-0 translate-x-full"
+     x-transition:enter-end="opacity-100 translate-x-0"
+     x-transition:leave="transition ease-in duration-700"
+     x-transition:leave-start="opacity-100 translate-x-0"
+     x-transition:leave-end="opacity-0 translate-x-full"
      class="mt-4 rounded-md p-4 bg-green-200/20 text-green-700 border border-green-500/50 shadow-sm "
 >
   <div class="flex items-center">

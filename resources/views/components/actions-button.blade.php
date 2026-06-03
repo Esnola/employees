@@ -12,9 +12,9 @@
         @elseif($action)
           wire:click="{{ $action }}"
         @endif
-                @if($confirm)
-                  wire:confirm="{{ $confirm }}"
-                @endif
-        class="{{$clases}} cursor-pointer items-center px-3 py-2 border  text-sm font-medium rounded-md" >
+         @if($confirm)
+         wire:confirm="{{ $confirm }}"
+          @endif
+        class="{{$clases}} cursor-pointer items-center px-3 py-2 border text-sm font-medium rounded-md" >
   {{ $text }}
 </button>

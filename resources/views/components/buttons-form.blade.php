@@ -12,6 +12,6 @@
 </buton>
 <button type="submit"
         class="{{$class}} bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500">
-  {{$textbutton}}
+  {{__($textbutton)}}
 </button>
 </div>

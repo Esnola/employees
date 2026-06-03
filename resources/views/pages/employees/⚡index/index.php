@@ -7,12 +7,16 @@
   use App\Imports\EmployeesImport;
   use App\Models\Employee;
   use Barryvdh\DomPDF\Facade\Pdf;
+  use Illuminate\Pagination\LengthAwarePaginator;
   use Livewire\Attributes\Computed;
   use Livewire\Attributes\Title;
   use Livewire\Component;
   use Livewire\WithFileUploads;
   use Livewire\WithPagination;
   use Maatwebsite\Excel\Facades\Excel;
+  use function Laravel\Prompts\alert;
+  use App\Livewire\Forms\EmployeeForm;
+  use Flux\Flux;
   
   new class extends Component {
     use WithPagination;
@@ -30,6 +34,16 @@
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
     
+    // Enums
+    public $departments = [];
+    public $positions = [];
+    public $statuses = [];
+    
+    //## FormEdit
+    public EmployeeForm $form;
+    public ?Employee $employee = null;
+    public ?Employee $editingEmployee = null;
+    
     // Pagination
     public $perPage = 10;
     
@@ -38,7 +52,8 @@
     public $selectAll = false;
     
     // Modal state
-    public $showDeleteModal = false;
+    //public $showDeleteModal = false;
+    
     public $employeeToDelete = null;
     
     // Query string for URL persistence
@@ -51,28 +66,22 @@
       'sortDirection' => ['except' => 'asc'],
     ];
     
-    
+/*
     public function mount()
     {
       $this->title = __('Employees List');
-    }
+    }*/
     public function render()
     {
       return view('pages.employees.⚡index.index')
         ->title($this->title);
     }
-/*    #[Computed]
-    public function employees()
+
+    public function hasActiveFilters(): bool
     {
-      return Employee::query()
-        ->when($this->search, fn($q) => $q->search($this->search))
-        ->when($this->department, fn($q) => $q->where('department', $this->department))
-        ->when($this->position, fn($q) => $q->where('position', $this->position))
-        ->when($this->status, fn($q) => $q->where('status', $this->status))
-        ->orderBy($this->sortField, $this->sortDirection)
-        ->paginate($this->perPage);
+      return $this->search || $this->department || $this->position || $this->status;
     }
-    */
+    /*
     #[Computed]
     public function departments()
     {
@@ -90,12 +99,18 @@
     {
       return PositionEnum::cases();
     }
-    
-    
+   
     public function closeDeleteModal()
     {
       $this->showDeleteModal = false;
-      // $this->reset(['employeeToDeleteId', 'employeeToDeleteName']);
+    }
+    */
+    public function mount()
+    {
+      $this->departments = DepartmentEnum::cases();
+      $this->positions = PositionEnum::cases();
+      $this->statuses = StatusEnum::cases();
+      $this->title = __('Employees List');
     }
     
     public function sortBy(string $field): void
@@ -106,7 +121,24 @@
         $this->sortField = $field;
         $this->sortDirection = 'asc';
       }
-      
+      $this->resetPage();
+    }
+
+    public function filterByDepartment(string $department): void
+    {
+      $this->department = $this->department === $department ? '' : $department;
+      $this->resetPage();
+    }
+
+    public function filterByPosition(string $position): void
+    {
+      $this->position = $this->position === $position ? '' : $position;
+      $this->resetPage();
+    }
+
+    public function filterByStatus(string $status): void
+    {
+      $this->status = $this->status === $status ? '' : $status;
       $this->resetPage();
     }
     
@@ -130,9 +162,9 @@
         descending: $this->sortDirection === 'desc'
       )->values();
       
-      $page = $this->getPage(); // <-- aquí
+      $page = $this->getPage();
       
-      return new \Illuminate\Pagination\LengthAwarePaginator(
+      return new LengthAwarePaginator(
         $sorted->forPage($page, $this->perPage),
         $sorted->count(),
         $this->perPage,
@@ -140,56 +172,25 @@
         ['path' => request()->url()]
       );
     }
-  /*  public function sortBy($field)
-    {
-      if ($this->sortField === $field) {
-        $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
-        $this->sortField = $field;
-        $this->sortDirection = 'asc';
-      }
-      
-      $this->resetPage();
-    }*/
-    
-    public function updatedSearch()
-    {
-      $this->resetPage();
-    }
-    
-    public function updatedDepartment()
-    {
-      $this->resetPage();
-    }
-    
-    public function updatedPosition()
-    {
-      $this->resetPage();
-    }
-    
-    public function updatedStatus()
-    {
-      $this->resetPage();
-    }
-    
+ 
     public function resetFilters()
     {
-      $this->reset(['search', 'department', 'position', 'status']);
-      $this->resetPage();
+     /* $this->reset(['search', 'department', 'position', 'status']);
+      $this->resetPage();*/
+      return to_route('employees.index');
     }
     
     public function confirmDelete($employeeId)
     {
       $this->employeeToDelete = $employeeId;
-      $this->showDeleteModal = true;
+    //  $this->showDeleteModal = true;
     }
-    
     
     public function deleteEmployee()
     {
       if ($this->employeeToDelete) {
         Employee::find($this->employeeToDelete)->delete();
-        $this->showDeleteModal = false;
+      //  $this->showDeleteModal = false;
         $this->employeeToDelete = null;
         
         session()->flash('message', 'Employee deleted successfully.');
@@ -218,8 +219,7 @@
     {
       return redirect()->route($route);
      }
-      
-      
+     
       public function exportPdf()
     {
       $employees = Employee::query()
@@ -296,5 +296,21 @@
         ->when($this->status, fn($q) => $q->where('status', $this->status))
         ->orderBy($this->sortField, $this->sortDirection)
         ->get();
+    }
+    
+    public function edit(Employee $employee): void
+    {
+      $this->editingEmployee = $employee;
+      
+      $this->form->setEmployee($employee);
+      
+      Flux::modal('edit-employee')->show();
+    }
+    
+    public function update(): void
+    {
+      $this->form->update();
+      Flux::modal('edit-employee')->close();
+      session()->flash('message', __('Employee updated successfully.'));
     }
   };

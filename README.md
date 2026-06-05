@@ -32,12 +32,18 @@ npm run dev
 
 ## 🧰 Tools used
 - **Edtior/IDE** [phpStorm](https://www.jetbrains.com/phpstorm/)
-
-
+- **Warp** [Warp](https://www.warp.dev/)
+- **Flux** [Flux](https://fluxui.dev/)
+- **Tailwind** [Tailwind](https://tailwindcss.com/)
+- **Alpine** [Alpine](https://alpinejs.dev/)
+- **Laravel** [Laravel](https://laravel.com/)
+- **Livewire** [Livewire](https://laravel-livewire.com/)
+- **Inertia** [Inertia](https://inertiajs.com/)
+- **Laravel Debugbar** [Laravel Debugbar](https://laraveldebugbar.com/)
 ---
 <a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a>
 
-<a href="https://https://www.warp.dev/"><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /></a>
+### <a href="https://www.warp.dev/"><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /> Warp</a>
 
 ---
 

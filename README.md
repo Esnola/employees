@@ -31,11 +31,11 @@ php artisan storage:link
 npm run dev  
 ```  
 
+
 ## 🧰 Tools used
-|<a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a>|<a href="https://www.laravel.com/" ><img src="https://logo.svgcdn.com/devicon/laravel-original-wordmark.png" width="100" height="auto" /></a> |<a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /> Warp</a> |<a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/logos/tailwindcss.png" width="105" height="auto" /></a> |<a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/logos/alpinejs.png" width="105" height="auto" /></a> |<a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/devicon/livewire-original-wordmark.png" width="60" height="auto" /></a>
-|--|--|--|--|--|--|--|
-
-
+| <a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a> | <a href="https://www.laravel.com/" ><img src="https://logo.svgcdn.com/devicon/laravel-original-wordmark.png" width="100" height="auto" /></a> | <a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /> Warp</a>        |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| <a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/logos/tailwindcss.png" width="105" height="auto" /></a>                               | <a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/logos/alpinejs.png" width="105" height="auto" /></a>                       | <a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/devicon/livewire-original-wordmark.png" width="60" height="auto" /></a> |
 
 ---
 

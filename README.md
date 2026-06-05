@@ -1,5 +1,5 @@
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>  
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://repository-images.githubusercontent.com/1253933361/8303e016-7eb7-40c9-801f-980a16ee2d6b" width="400" alt="Laravel Logo"></a></p>  
 
 # ✨ Credits 📌
 

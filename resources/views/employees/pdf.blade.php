@@ -63,7 +63,7 @@
       <td>${{ $employee->formatSalary() }}</td>
       <td>{{ $employee->hire_date->format('M d, Y') }}</td>
       <td class="status-{{ $employee->status->value }}">
-        {{ ucfirst($employee->status->value) }}
+        {{ $employee->status->label() }}
       </td>
     </tr>
   @endforeach

@@ -7,13 +7,11 @@
 
 <div class="flex justify-end gap-3">
   @if($modalName)
-    <flux:modal.close>
-      <button type="button"
-              data-close-flux-modal="{{ $modalName }}"
-              class="{{$class}} border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-500 focus:ring-offset-gray-100">
-        {{__('Cancel')}}
-      </button>
-    </flux:modal.close>
+    <button type="button"
+            data-close-flux-modal="{{ $modalName }}"
+            class="{{$class}} border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-500 focus:ring-offset-gray-100">
+      {{__('Cancel')}}
+    </button>
   @else
     <a href="{{ $route }}"
        wire:navigate

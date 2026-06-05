@@ -1,5 +1,6 @@
 <div class="px-4 sm:px-6 lg:px-8 relative">
-
+  {{-- Flash Message --}}
+  <x-flash-message/>
   {{-- Header --}}
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
@@ -24,15 +25,9 @@
     @endif
   </div>
 
-  {{-- Flash Message --}}
-
-  @if (session()->has('message'))
-    <x-flash-message/>
-  @endif
-
   <div class="mt-8 flex flex-col md:flex-row md:items-center gap-2">
     {{-- Filters & Search --}}
-    <x-search/>
+    <x-search :search="$search"/>
     <x-filters/>
   </div>
 
@@ -53,8 +48,7 @@
               </th>
 
               {{-- Sortable Name Column --}}
-              <x-shortable-th field="first_name" :sortDirection="$sortDirection" :sortField="$sortField"
-                              text="{{__('Name')}}"/>
+              <x-shortable-th field="first_name" :sortDirection="$sortDirection" :sortField="$sortField" text="{{__('Name')}}"/>
 
               {{-- Email --}}
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -62,12 +56,10 @@
               </th>
 
               {{-- Sortable Department --}}
-              <x-shortable-th field="department" :sortDirection="$sortDirection" :sortField="$sortField"
-                              text="{{__('Department')}}"/>
+              <x-shortable-th field="department" :sortDirection="$sortDirection" :sortField="$sortField" text="{{__('Department')}}"/>
 
               {{-- Sortable Position --}}
-              <x-shortable-th field="position" :sortDirection="$sortDirection" :sortField="$sortField"
-                              text="{{__('Position')}}"/>
+              <x-shortable-th field="position" :sortDirection="$sortDirection" :sortField="$sortField"  text="{{__('Position')}}"/>
 
               <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 {{__('Status') }}
@@ -88,7 +80,8 @@
                          class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6">
                 </td>
 
-                <td class="whitespace-nowrap px-3 py-4">
+                <td class="whitespace-nowrap px-3 py-4 flex gap-2 items-center relative">
+                  <flux:avatar :src="$employee->avatar_url"/>
                   <flux:link class="font-medium no-underline! hover:underline text-gray-500 text-sm"
                              href="{{route('employees.show', $employee)}}">{{ $employee->full_name }}
                   </flux:link>
@@ -129,9 +122,9 @@
                 <td class="whitespace-nowrap px-3 py-4 text-sm">
                   <button type="button"
                           wire:click="filterByStatus('{{ $employee->status->value }}')"
-                          class="cursor-pointer" >
+                          class="cursor-pointer">
                     <span class="inline-flex rounded-md px-2 text-xs font-semibold leading-5 border {{ $employee->status->classes() }} {{ $status === $employee->status->value ? 'ring-2 ring-offset-1 ring-current' : '' }}">
-                      {{ ucfirst(__($employee->status->value)) }}
+                      {{ $employee->status->label() }}
                     </span>
                   </button>
                 </td>
@@ -155,44 +148,40 @@
   </div>
 
   {{-- Pagination --}}
-  <div class="mt-4">
-    {{ $this->employees->links() }}
+  <div class="mt-6 flex justify-between">
+    <label for="per-page" class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+      <span>{{ __('Show') }}</span>
+      <select id="per-page" wire:model.live="perPage"
+              class="h-10 rounded-md border border-gray-300 bg-white px-1 text-xs text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-transparent dark:text-gray-300">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="all">{{ __('All') }}</option>
+      </select>
+    </label>
+
+    {{ $this->employees->onEachSide(2)->links('paginator') }}
   </div>
 
-  {{-- Create Flux Modal --}}
-  <flux:modal
-          flyout
-          variant="floating"
-          :dismissible="false"
+  <x-employees.create-edit-modal
           name="create-employee"
-          class="min-w-fit px-[150px] max-w-screen min-h-screen! rounded-none! p-8!
-           bg-white/10! backdrop-blur-xs! border border-white/20!
-           shadow-2xl!">
-    <x-employees.create-edit
-            :title="__('Create Employee')"
-            submit-action="store"
-            textbutton="Create Employee"
-            modal-name="create-employee"
-            :departments="$departments"
-            :positions="$positions"
-            :statuses="$statuses"/>
-  </flux:modal>
+          :form="$form"
+          :title="__('Create Employee')"
+          submit-action="store"
+          textbutton="Create Employee"
+          :departments="$departments"
+          :positions="$positions"
+          :statuses="$statuses"/>
 
-  {{-- Edit Flux Modal --}}
-  <flux:modal
-          flyout
-          variant="floating"
-          :dismissible="false"
+  <x-employees.create-edit-modal
           name="edit-employee"
-          class="min-w-fit px-[150px] max-w-screen min-h-screen! rounded-none! p-8!
-           bg-white/10! backdrop-blur-xs! border border-white/20!
-           shadow-2xl!">
-    <x-employees.create-edit
-            :editing-employee="$editingEmployee"
-            :departments="$departments"
-            :positions="$positions"
-            :statuses="$statuses"/>
-  </flux:modal>
+          :form="$form"
+          :editing-employee="$editingEmployee"
+          :departments="$departments"
+          :positions="$positions"
+          :statuses="$statuses"/>
 
   {{-- Delete Confirmation Modal --}}
   <flux:modal variant="floating" :dismissible="false" name="delete-employee" class="w-full max-w-lg">

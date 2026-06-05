@@ -1,26 +1,21 @@
 <?php
   
-  use App\Enums\DepartmentEnum;
-  use App\Enums\PositionEnum;
-  use App\Enums\StatusEnum;
   use App\Exports\EmployeesExport;
   use App\Imports\EmployeesImport;
+  use App\Livewire\Employees\Concerns\ManagesEmployeeForm;
   use App\Models\Employee;
   use Barryvdh\DomPDF\Facade\Pdf;
+  use Illuminate\Database\Eloquent\Builder;
   use Illuminate\Pagination\LengthAwarePaginator;
   use Livewire\Attributes\Computed;
- // use Livewire\Attributes\Title;
   use Livewire\Component;
-  use Livewire\WithFileUploads;
   use Livewire\WithPagination;
   use Maatwebsite\Excel\Facades\Excel;
-//  use function Laravel\Prompts\alert;
-  use App\Livewire\Forms\EmployeeForm;
-  use Flux\Flux;
   
   new class extends Component {
     use WithPagination;
-    use WithFileUploads;
+    use ManagesEmployeeForm;
+
     public string $title ='';
 
     // Add property for import
@@ -34,18 +29,11 @@
     public $sortField = 'first_name';
     public $sortDirection = 'asc';
     
-    // Enums
-    public $departments = [];
-    public $positions = [];
-    public $statuses = [];
-    
     //## FormEdit
-    public EmployeeForm $form;
     public ?Employee $employee = null;
-    public ?Employee $editingEmployee = null;
     public ?string $employeeFullName="";
     // Pagination
-    public $perPage = 10;
+    public int|string $perPage = 10;
     
     // Selected employees for bulk actions
     public $selected = [];
@@ -77,9 +65,7 @@
 
     public function mount()
     {
-      $this->departments = DepartmentEnum::cases();
-      $this->positions = PositionEnum::cases();
-      $this->statuses = StatusEnum::cases();
+      $this->mountEmployeeForm();
       $this->title = __('Employees List');
 
       $employeeId = request()->integer('edit');
@@ -101,6 +87,22 @@
         $this->sortField = $field;
         $this->sortDirection = 'asc';
       }
+      $this->resetPage();
+    }
+
+    public function updatedSearch(): void
+    {
+      $this->resetPage();
+    }
+
+    public function updatedPerPage(): void
+    {
+      if (!in_array((string) $this->perPage, ['10', '20', '30', '40', '50', 'all'], true)) {
+        $this->perPage = 10;
+      } elseif ($this->perPage !== 'all') {
+        $this->perPage = (int) $this->perPage;
+      }
+
       $this->resetPage();
     }
 
@@ -133,8 +135,10 @@
         ->when($this->position, fn($q) => $q->where('position', $this->position))
         ->when($this->status, fn($q) => $q->where('status', $this->status));
       
+      $perPage = $this->resolvePerPage($query);
+
       if (!in_array($this->sortField, $enumFields)) {
-        return $query->orderBy($this->sortField, $this->sortDirection)->paginate($this->perPage);
+        return $query->orderBy($this->sortField, $this->sortDirection)->paginate($perPage);
       }
       
       $sorted = $query->get()->sortBy(
@@ -145,12 +149,21 @@
       $page = $this->getPage();
       
       return new LengthAwarePaginator(
-        $sorted->forPage($page, $this->perPage),
+        $sorted->forPage($page, $perPage),
         $sorted->count(),
-        $this->perPage,
+        $perPage,
         $page,
         ['path' => request()->url()]
       );
+    }
+
+    private function resolvePerPage(Builder $query): int
+    {
+      if ($this->perPage === 'all') {
+        return max($query->count(), 1);
+      }
+
+      return (int) $this->perPage;
     }
  
     public function resetFilters()
@@ -189,7 +202,8 @@
     
     public function bulkDelete()
     {
-      Employee::whereIn('id', $this->selected)->delete();
+      Employee::deleteManyWithPhotos(Employee::whereIn('id', $this->selected)->get());
+
       $this->selected = [];
       $this->selectAll = false;
       
@@ -279,34 +293,4 @@
         ->get();
     }
     
-    public function edit(Employee $employee): void
-    {
-      $this->editingEmployee = $employee;
-      
-      $this->form->setEmployee($employee);
-      
-      Flux::modal('edit-employee')->show();
-    }
-
-    public function create(): void
-    {
-      $this->editingEmployee = null;
-      $this->form->reset();
-
-      Flux::modal('create-employee')->show();
-    }
-
-    public function store(): void
-    {
-      $this->form->store();
-      $this->dispatch('close-flux-modal-with-transition', name: 'create-employee');
-      session()->flash('message', __('Employee created successfully.'));
-    }
-    
-    public function update(): void
-    {
-      $this->form->update();
-      $this->dispatch('close-flux-modal-with-transition', name: 'edit-employee');
-      session()->flash('message', __('Employee updated successfully.'));
-    }
   };

@@ -1,11 +1,45 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ✨ Credits 📌
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Thanks a lot to  [@codewithSJM](https://www.youtube.com/@codewithSJM) For the inspiration his [video](https://www.youtube.com/watch?v=fQhIV4HnzaE) has given me.
+
+---
+
+# ✨ Changes from the original code.
+- Language selector.
+- Light/dark mode selector.
+- Pagination.
+- Edit employees whith modal form.
+- Create employees with modal form.
+- Avatar / Photo fiel for employees.
+- Notes field for employees.
+- More Select Options.
+- Ability to filter by each property in the list.
+- Position, department and status are controlled by Enums, with customisation options, labels, colors, translates.
+- Debug Bar - for dev. ([laraveldebugbar.com](https://laraveldebugbar.com/))
+---
+
+## ✨ Instructions
+Run in de terminal [Warp recomneded](https://www.warp.dev/)
+```
+composer install
+npm install
+cp .env.example .env 
+php artisan key:generate
+php artisan storage:link
+npm run dev
+```
+
+## 🧰 Tools used
+- **Edtior/IDE** [phpStorm](https://www.jetbrains.com/phpstorm/)
+
+
+---
+<a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a>
+
+<a href="https://https://www.warp.dev/"><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /></a>
+
+---
 
 ## About Laravel
 

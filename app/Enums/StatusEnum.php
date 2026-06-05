@@ -2,16 +2,20 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\HasLocalizedCases;
+
 enum StatusEnum: string
 {
+    use HasLocalizedCases;
+
     case Active = 'active';
     case Inactive = 'inactive';
 
     public function label(): string
     {
         return match ($this) {
-            self::Active => __('Active'),
-            self::Inactive => __('Inactive'),
+            self::Active => __('active'),
+            self::Inactive => __('inactive'),
         };
     }
 

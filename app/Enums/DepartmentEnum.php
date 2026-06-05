@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\HasLocalizedCases;
+
 enum DepartmentEnum: string
 {
+    use HasLocalizedCases;
+
     case Engineering = 'Engineering';
     case Finance = 'Finance';
     case HR = 'HR';

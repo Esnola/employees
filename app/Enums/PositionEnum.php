@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\HasLocalizedCases;
+
 enum PositionEnum: string
 {
+    use HasLocalizedCases;
+
     case Analyst = 'Analyst';
     case Coordinator = 'Coordinator';
     case Designer = 'Designer';

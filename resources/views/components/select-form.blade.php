@@ -4,7 +4,7 @@
   </label>
   <select wire:model="form.{{$for}}" id="{{$for}}">
     @foreach($loop as $data)
-      <option value="{{ $data }}">{{ ucfirst($data->value) }}</option>
+      <option value="{{ $data->value }}">{{ $data->label() }}</option>
     @endforeach
   </select>
   @error("form.{{$for}}")

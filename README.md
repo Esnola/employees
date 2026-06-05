@@ -1,9 +1,11 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>  
+
 # ✨ Credits 📌
 
 ### Thanks a lot to  [@codewithSJM](https://www.youtube.com/@codewithSJM) For the inspiration his [video](https://www.youtube.com/watch?v=fQhIV4HnzaE) has given me.
-
----
+  
+---  
 
 # ✨ Changes from the original code.
 - Language selector.
@@ -17,33 +19,23 @@
 - Ability to filter by each property in the list.
 - Position, department and status are controlled by Enums, with customisation options, labels, colors, translates.
 - Debug Bar - for dev. ([laraveldebugbar.com](https://laraveldebugbar.com/))
----
+---  
 
 ## ✨ Instructions
 Run in de terminal [Warp recomneded](https://www.warp.dev/)
-```
-composer install
-npm install
-cp .env.example .env 
-php artisan key:generate
-php artisan storage:link
-npm run dev
-```
+```  
+composer install  
+npm install  
+cp .env.example .env php artisan key:generate  
+php artisan storage:link  
+npm run dev  
+```  
 
 ## 🧰 Tools used
-- **Edtior/IDE** [phpStorm](https://www.jetbrains.com/phpstorm/)
-- **Warp** [Warp](https://www.warp.dev/)
-- **Flux** [Flux](https://fluxui.dev/)
-- **Tailwind** [Tailwind](https://tailwindcss.com/)
-- **Alpine** [Alpine](https://alpinejs.dev/)
-- **Laravel** [Laravel](https://laravel.com/)
-- **Livewire** [Livewire](https://laravel-livewire.com/)
-- **Inertia** [Inertia](https://inertiajs.com/)
-- **Laravel Debugbar** [Laravel Debugbar](https://laraveldebugbar.com/)
----
-<a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a>
+|<a href="https://www.jetbrains.com/phpstorm/"><img src="https://logo.svgcdn.com/devicon/phpstorm-original-wordmark.png" width="125" height="auto" /></a>|<a href="https://www.laravel.com/" ><img src="https://logo.svgcdn.com/devicon/laravel-original-wordmark.png" width="100" height="auto" /></a> |<a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /> Warp</a> |<a href="https://www.warp.dev/" ><img src="https://logo.svgcdn.com/logos/tailwindcss.png" width="105" height="auto" /></a> |<a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/logos/alpinejs.png" width="105" height="auto" /></a> |<a href="https://alpinejs.dev/" ><img src="https://logo.svgcdn.com/devicon/livewire-original-wordmark.png" width="60" height="auto" /></a>
+|--|--|--|--|--|--|--|
 
-### <a href="https://www.warp.dev/"><img src="https://logo.svgcdn.com/simple-icons/warp-dark.png" width="35" height="auto" /> Warp</a>
+
 
 ---
 
